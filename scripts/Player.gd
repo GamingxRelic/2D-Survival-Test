@@ -20,7 +20,7 @@ var attack_damage := 1.0
 @export var cut_height : float = 0.75
 
 # Max y velocity
-@export var max_fall_velocity : float = 350.0
+@export var max_fall_velocity : float = 550.0
 
 # Jumping variables
 var can_jump := false
@@ -30,7 +30,22 @@ var is_jumping := false
 # Audio variables
 @onready var pickup_audio := $Audio/Pickup
 
+# Corner Correction variables
+@onready var cc_outer_left := $Raycasts/CornerCorrection/OuterLeft
+@onready var cc_inner_left := $Raycasts/CornerCorrection/InnerLeft
+@onready var cc_outer_right := $Raycasts/CornerCorrection/OuterRight
+@onready var cc_inner_right := $Raycasts/CornerCorrection/InnerRight
+@export var cc_push_amount := 3.0
+
+# Stair Check variables
+@onready var sc_head_left := $Raycasts/StairCheck/LeftHead
+@onready var sc_ground_left := $Raycasts/StairCheck/LeftFoot
+@onready var sc_head_right := $Raycasts/StairCheck/RightHead
+@onready var sc_ground_right := $Raycasts/StairCheck/RightFoot
+@export var sc_push_amount := 160.0
+
 func _physics_process(delta) -> void:
+	GameManager.player_pos = global_position
 
 	# Handle Jump
 	handle_jump(delta)
@@ -38,29 +53,35 @@ func _physics_process(delta) -> void:
 	# Horizontal Movement
 	horizontal_movement()
 	
+	# Stair Check
+	#stair_check()
+	
+	# Corner Correction
+	#corner_correction()
+	
 	move_and_slide()
 	
-	if Input.is_action_just_pressed("left_click"):
-		$DamageBox/CollisionShape2D.disabled = false
-		$DamageBox/CollisionShape2D2.disabled = false
+	if Input.is_action_pressed("left_click"):
+		var cell_coords := GameManager.tilemap.local_to_map(get_global_mouse_position())
+		GameManager.tilemap.set_cell(0, cell_coords)
+		
+		$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
+		$DamageBox/Mouse_Collision.disabled = false
 		await get_tree().create_timer(0.1).timeout
-		$DamageBox/CollisionShape2D.disabled = true
-		$DamageBox/CollisionShape2D2.disabled = true
+		$DamageBox/Mouse_Collision.disabled = true
+		#$DamageBox/CollisionShape2D.disabled = false
+		#$DamageBox/CollisionShape2D2.disabled = false
+		#await get_tree().create_timer(0.1).timeout
+		#$DamageBox/CollisionShape2D.disabled = true
+		#$DamageBox/CollisionShape2D2.disabled = true
 	
-	if Input.is_action_just_pressed("right_click"):
-		var select = randi_range(0, 1)
-		if select == 0:
-			var rock = preload("res://scenes/resource_nodes/rock.tscn").instantiate()
-			rock.global_position = get_global_mouse_position()
-			GameManager.entities.call_deferred("add_child", rock)
-		elif select == 1:
-			var tree = preload("res://scenes/resource_nodes/tree.tscn").instantiate()
-			tree.global_position = get_global_mouse_position()
-			GameManager.entities.call_deferred("add_child", tree)
+	if Input.is_action_pressed("right_click"):
+		var cell_coords := GameManager.tilemap.local_to_map(get_global_mouse_position())
+		if GameManager.tilemap.get_cell_tile_data(0, cell_coords) == null:
+			GameManager.tilemap.set_cell(0, cell_coords, 0, Vector2i(2, 0))
 
 func horizontal_movement() -> void:
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis("move_left", "move_right")
 	
 	if Input.is_action_pressed("sprint") and is_on_floor():
@@ -118,6 +139,23 @@ func remember_jump_time() -> void:
 	await get_tree().create_timer(0.1).timeout
 	jump_was_pressed = false
 
+func stair_check():
+	if velocity.x != 0:
+		if velocity.x < 0 and velocity.y == 0 and sc_ground_left.get_collider() != null and sc_head_left.get_collider() == null:
+			velocity.x -= sc_push_amount
+			velocity.y -= sc_push_amount
+		if velocity.x > 0 and velocity.y == 0 and sc_ground_right.get_collider() != null and sc_head_right.get_collider() == null:
+			velocity.x += sc_push_amount
+			velocity.y -= sc_push_amount
+
+func corner_correction():
+	if velocity.y < 0:
+		if cc_outer_left.get_collider() != null and cc_inner_left.get_collider() == null:
+			position.x += cc_push_amount
+
+		if cc_outer_right.get_collider() != null and cc_inner_right.get_collider() == null:
+			position.x -= cc_push_amount
+
 func pickup(item_id : String) -> void:
 	var sound = load(SoundList.item[randi_range(1, SoundList.item.size())])
 	pickup_audio.stream = sound
@@ -137,3 +175,13 @@ func _on_pickup_range_body_entered(body) -> void:
 func _on_damage_box_body_entered(body):
 	if body.is_in_group("resource"):
 		body.damage(attack_damage)
+
+
+func _on_item_pull_range_body_entered(body):
+	if body.is_in_group("item"):
+		body.follow_player()
+
+
+func _on_item_pull_range_body_exited(body):
+	if body.is_in_group("item"):
+		body.stop_following_player()

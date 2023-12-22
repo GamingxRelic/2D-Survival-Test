@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/item.gd" id="1_rurty"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dk0bk"]
-size = Vector2(8, 8)
+[sub_resource type="CircleShape2D" id="CircleShape2D_5bg76"]
+radius = 4.0
 
 [node name="Item" type="RigidBody2D" groups=["item"]]
+z_index = 5
 collision_layer = 8
 collision_mask = 9
 can_sleep = false
@@ -20,4 +21,4 @@ offset_bottom = 4.0
 color = Color(0.556863, 0.556863, 0.556863, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_dk0bk")
+shape = SubResource("CircleShape2D_5bg76")

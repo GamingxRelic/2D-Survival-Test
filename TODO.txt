@@ -1,4 +1,7 @@
 TODO: 
+	Make sure you track time working on project!
+	https://docs.google.com/spreadsheets/d/1mTOjAntssnMLQDWoCWf8T_ZWNkzT8XOPyx8nhNfLluM/edit?usp=sharing
+	
 	1. Add inventory system
 		a. Make a UI for it
 		b. Item slots with items in it. Minecraft inventory style.

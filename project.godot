@@ -13,7 +13,7 @@ config_version=5
 config/name="Survival Test"
 config/description="Testing out survival game mechanics in Godot 4.2+.
 "
-run/main_scene="res://scenes/main/game.tscn"
+run/main_scene="res://scenes/levels/TestLevel.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
 [autoload]
@@ -71,6 +71,7 @@ down={
 
 [layer_names]
 
+2d_physics/layer_1="Ground"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Resource"
 2d_physics/layer_4="Item"
@@ -81,4 +82,5 @@ down={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 environment/defaults/default_clear_color=Color(0, 0.215686, 0.32549, 1)

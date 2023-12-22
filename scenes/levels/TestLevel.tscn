@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://ciatbfx13u6rt" path="res://scenes/player.tscn" id="1_ljk2n"]
 [ext_resource type="Script" path="res://scripts/levels/TestLevel.gd" id="1_v46q4"]
-[ext_resource type="PackedScene" uid="uid://fbg8oafl30nt" path="res://scenes/resource_nodes/rock.tscn" id="2_vc5nv"]
-[ext_resource type="PackedScene" uid="uid://bwlb28ohybk33" path="res://scenes/resource_nodes/tree.tscn" id="3_8av2u"]
+[ext_resource type="PackedScene" uid="uid://cp25y5x7uo0pp" path="res://scenes/levels/world_tile.tscn" id="2_nggfl"]
+[ext_resource type="PackedScene" uid="uid://yc5aoowlcayc" path="res://scenes/ui/GUI.tscn" id="4_qb17p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w7tb7"]
 size = Vector2(1559, 46)
@@ -19,69 +19,56 @@ script = ExtResource("1_v46q4")
 
 [node name="Entities" type="Node2D" parent="."]
 
-[node name="Rock" parent="Entities" instance=ExtResource("2_vc5nv")]
-position = Vector2(142, -23)
-
-[node name="Rock2" parent="Entities" instance=ExtResource("2_vc5nv")]
-position = Vector2(560, -23)
-
-[node name="Rock3" parent="Entities" instance=ExtResource("2_vc5nv")]
-position = Vector2(850, -87)
-
-[node name="Rock4" parent="Entities" instance=ExtResource("2_vc5nv")]
-position = Vector2(391, -131)
-
-[node name="Tree" parent="Entities" instance=ExtResource("3_8av2u")]
-position = Vector2(235, -64)
-
-[node name="Tree2" parent="Entities" instance=ExtResource("3_8av2u")]
-position = Vector2(736, -127)
-
-[node name="Tree3" parent="Entities" instance=ExtResource("3_8av2u")]
-position = Vector2(542, -171)
-
 [node name="Ground" type="Node2D" parent="."]
 
-[node name="GroundFloor" type="StaticBody2D" parent="Ground"]
+[node name="OLD" type="Node2D" parent="Ground"]
+position = Vector2(-91562, 0)
 
-[node name="ColorRect" type="ColorRect" parent="Ground/GroundFloor"]
+[node name="GroundFloor" type="StaticBody2D" parent="Ground/OLD"]
+
+[node name="ColorRect" type="ColorRect" parent="Ground/OLD/GroundFloor"]
 offset_right = 1549.0
 offset_bottom = 47.0
 color = Color(0, 0.419608, 0.611765, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/GroundFloor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/GroundFloor"]
 position = Vector2(779, 23)
 shape = SubResource("RectangleShape2D_w7tb7")
 
-[node name="SecondLayer" type="StaticBody2D" parent="Ground"]
+[node name="SecondLayer" type="StaticBody2D" parent="Ground/OLD"]
 z_index = -20
 
-[node name="ColorRect" type="ColorRect" parent="Ground/SecondLayer"]
+[node name="ColorRect" type="ColorRect" parent="Ground/OLD/SecondLayer"]
 offset_left = 485.0
 offset_top = -64.0
 offset_right = 1050.0
 color = Color(0, 0.27451, 0.407843, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/SecondLayer"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/SecondLayer"]
 position = Vector2(767.5, -61)
 shape = SubResource("RectangleShape2D_qdwdg")
 one_way_collision = true
 
-[node name="ThirdLayer" type="StaticBody2D" parent="Ground"]
+[node name="ThirdLayer" type="StaticBody2D" parent="Ground/OLD"]
 z_index = -30
 
-[node name="ColorRect" type="ColorRect" parent="Ground/ThirdLayer"]
+[node name="ColorRect" type="ColorRect" parent="Ground/OLD/ThirdLayer"]
 offset_left = 282.0
 offset_top = -107.0
 offset_right = 669.0
 color = Color(0, 0.109804, 0.176471, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/ThirdLayer"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/ThirdLayer"]
 position = Vector2(475.5, -104.5)
 shape = SubResource("RectangleShape2D_uag84")
 one_way_collision = true
+
+[node name="WorldTile" parent="Ground" instance=ExtResource("2_nggfl")]
 
 [node name="Player" parent="." instance=ExtResource("1_ljk2n")]
 position = Vector2(427, -30)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(1.25, 1.25)
+
+[node name="GUI" parent="." instance=ExtResource("4_qb17p")]
