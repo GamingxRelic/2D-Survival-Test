@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://ctfc3dplonua8"]
+
+[ext_resource type="Script" path="res://resources/item/base_item.gd" id="1_typxe"]
+
+[resource]
+script = ExtResource("1_typxe")
+name = "Wood"
+id = "wood"
+type = "MATERIAL"
+color = Color(0.352941, 0.223529, 0.0196078, 1)
+max_count = 0

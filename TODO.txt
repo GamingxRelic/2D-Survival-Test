@@ -1,0 +1,28 @@
+TODO: 
+	1. Add inventory system
+		a. Make a UI for it
+		b. Item slots with items in it. Minecraft inventory style.
+	
+	2. Add crafting system
+		a. Using the materials in your inventory, add crafting bench or something
+			to use those materials to craft tools.
+	
+	3. Add building system.
+		a. Make placeable on a grid.
+		b. Use tilemap.
+		
+	4. Add storage / chests / stored inventories
+		a. Inventories should be saved when you open and close the chest.
+		b. You shouldn't be able to break the chest if there are items in it.
+		   ^ Just so you dont have a ton of items flying around when it breaks.
+ 
+	5. Add world generation.
+		a. Slap together some world gen with tile maps.
+		b. Just a basic one with grass, stone, then on top, trees and rocks. 
+		
+ok i see what he does
+he creates a tilemap and gets the X and Y sizes. 
+
+i think he is making the base first. 
+it might be recursive for making each piece of the tree.
+if it is new, it will make a base, if it is not new, it makes a trunk.

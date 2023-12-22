@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://b8dn7s2nopbic"]
+
+[ext_resource type="Script" path="res://resources/item/base_item.gd" id="1_bhpex"]
+
+[resource]
+script = ExtResource("1_bhpex")
+name = "Stone"
+id = "stone"
+type = "MATERIAL"
+color = Color(0.439216, 0.439216, 0.439216, 1)
+max_count = 0
