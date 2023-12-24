@@ -1,20 +1,21 @@
 extends CharacterBody2D
 
 # Movement Speed
-@export var speed := 150.0
-@export var sprint_speed := 250.0
+@export var speed := 200.0
+@export var sprint_speed := 350.0
 var sprinting := false
 
 # Attack 
 var attack_damage := 1.0
+@export var reach := 128.0
 
 # More predictable jumps
-@export var jump_height : float = 100
-@export var jump_time_to_peak : float = 0.5
-@export var jump_time_to_descent : float = 0.4
-@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0 
-@onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
-@onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+var jump_height : float = 100
+var jump_time_to_peak : float = 0.5
+var jump_time_to_descent : float = 0.4
+var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0 
+var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
 # For variable jump height
 @export var cut_height : float = 0.75
@@ -62,23 +63,44 @@ func _physics_process(delta) -> void:
 	move_and_slide()
 	
 	if Input.is_action_pressed("left_click"):
-		var cell_coords := GameManager.tilemap.local_to_map(get_global_mouse_position())
-		GameManager.tilemap.set_cell(0, cell_coords)
+		GameManager.break_block(get_global_mouse_position())
 		
-		$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
-		$DamageBox/Mouse_Collision.disabled = false
-		await get_tree().create_timer(0.1).timeout
-		$DamageBox/Mouse_Collision.disabled = true
-		#$DamageBox/CollisionShape2D.disabled = false
-		#$DamageBox/CollisionShape2D2.disabled = false
-		#await get_tree().create_timer(0.1).timeout
-		#$DamageBox/CollisionShape2D.disabled = true
-		#$DamageBox/CollisionShape2D2.disabled = true
+		if global_position.distance_to(get_global_mouse_position()) <= reach:
+			$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
+			$DamageBox/Mouse_Collision.disabled = false
+			await get_tree().create_timer(0.1).timeout
+			$DamageBox/Mouse_Collision.disabled = true
 	
 	if Input.is_action_pressed("right_click"):
 		var cell_coords := GameManager.tilemap.local_to_map(get_global_mouse_position())
-		if GameManager.tilemap.get_cell_tile_data(0, cell_coords) == null:
-			GameManager.tilemap.set_cell(0, cell_coords, 0, Vector2i(2, 0))
+		if ( InventoryManager.stone_count > 0 and
+			GameManager.tilemap.get_cell_tile_data(0, cell_coords) == null ):
+				GameManager.tilemap.set_cell(0, cell_coords, 0, Vector2i(2, 0))
+				InventoryManager.stone_count -= 1
+
+	if Input.is_action_pressed("ui_text_submit"):
+		GameManager.spawn_resources.emit()
+	
+	if Input.is_action_just_pressed("test_explosion"):
+		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
+		grenade.global_position = global_position
+		var grenade_direction := (get_global_mouse_position() - global_position).normalized()
+		var grenade_speed := 500
+		grenade.apply_central_impulse(grenade_direction * grenade_speed)
+		GameManager.entities.call_deferred("add_child", grenade)
+		
+		#var explosion = preload("res://scenes/misc/explosion.tscn").instantiate()
+		#explosion.global_position = Vector2.ZERO
+		#explosion.global_position = get_global_mouse_position()
+		#GameManager.entities.call_deferred("add_child", explosion)
+		
+		#$Explosion/CollisionShape2D.global_position = get_global_mouse_position()
+		#var item = preload("res://scenes/test_explosion_particles.tscn").instantiate()
+		#item.global_position = get_global_mouse_position()
+		#GameManager.entities.call_deferred("add_child", item)
+		#$Explosion/CollisionShape2D.disabled = false
+		#await get_tree().create_timer(0.1).timeout
+		#$Explosion/CollisionShape2D.disabled = true
 
 func horizontal_movement() -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -166,6 +188,8 @@ func pickup(item_id : String) -> void:
 			InventoryManager.stone_count += 1
 		"wood":
 			InventoryManager.wood_count += 1
+		"dirt":
+			InventoryManager.dirt_count += 1
 
 func _on_pickup_range_body_entered(body) -> void:
 	if body.is_in_group("item"):
@@ -185,3 +209,8 @@ func _on_item_pull_range_body_entered(body):
 func _on_item_pull_range_body_exited(body):
 	if body.is_in_group("item"):
 		body.stop_following_player()
+
+
+func _on_explosion_body_entered(body):
+	if body.is_in_group("can_damage"):
+		body.damage(5)

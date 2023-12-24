@@ -14,5 +14,13 @@ var wood_count := 0 :
 	get:
 		return wood_count
 
+var dirt_count := 0 :
+	set(value):
+		dirt_count = value
+		dirt_count_changed.emit()
+	get:
+		return dirt_count
+
 signal stone_count_changed
 signal wood_count_changed
+signal dirt_count_changed

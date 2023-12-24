@@ -22,6 +22,8 @@ script = ExtResource("1_v46q4")
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="OLD" type="Node2D" parent="Ground"]
+process_mode = 4
+visible = false
 position = Vector2(-91562, 0)
 
 [node name="GroundFloor" type="StaticBody2D" parent="Ground/OLD"]
@@ -72,3 +74,16 @@ position = Vector2(427, -30)
 zoom = Vector2(1.25, 1.25)
 
 [node name="GUI" parent="." instance=ExtResource("4_qb17p")]
+
+[node name="Origin" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -3.5
+offset_right = 3.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2

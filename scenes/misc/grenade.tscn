@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4rai1y2usw7x"]
+
+[ext_resource type="Script" path="res://scripts/grenade.gd" id="1_jha6p"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xgxnq"]
+friction = 0.93
+bounce = 0.4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6h2vw"]
+radius = 8.0
+
+[node name="Grenade" type="RigidBody2D"]
+collision_layer = 16
+physics_material_override = SubResource("PhysicsMaterial_xgxnq")
+can_sleep = false
+script = ExtResource("1_jha6p")
+radius = 3.0
+fuse_time = 2.0
+damage = 5
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12549, 0.254902, 0.0627451, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6h2vw")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

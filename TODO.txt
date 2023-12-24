@@ -22,10 +22,3 @@ TODO:
 	5. Add world generation.
 		a. Slap together some world gen with tile maps.
 		b. Just a basic one with grass, stone, then on top, trees and rocks. 
-		
-ok i see what he does
-he creates a tilemap and gets the X and Y sizes. 
-
-i think he is making the base first. 
-it might be recursive for making each piece of the tree.
-if it is new, it will make a base, if it is not new, it makes a trunk.

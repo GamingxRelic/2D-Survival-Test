@@ -1,11 +1,19 @@
 extends RigidBody2D
 
+## TODO:
+# Add an Area2D that checks surrounding area to see if there are dropped items of the same type
+# If there are, they should combine stack sizes.
+
 @export var res : Item
+@export var count : int
+
 var following_player := false
-var max_speed := 150.0
+var max_speed := 250.0
 
 func _ready() -> void:
 	$ColorRect.color = res.color
+	await get_tree().create_timer(0.1).timeout
+	set_collision_mask_value(4, true)
 	
 func _physics_process(_delta):
 	if following_player:
