@@ -2,8 +2,12 @@ extends Node
 
 var debug := false
 
+var requested_scene = "res://scenes/levels/TestLevel.tscn"
+
 var level
 var entities
+var resource_nodes
+var max_resource_nodes := 100
 var tilemap : TileMap 
 var player_pos : Vector2
 
@@ -27,3 +31,10 @@ func break_block(pos : Vector2):
 		
 		GameManager.entities.call_deferred("add_child", item)
 		GameManager.tilemap.set_cell(0, cell_coords)
+		
+func place_block(pos : Vector2, tile_atlas_index : Vector2):
+	var cell_coords := GameManager.tilemap.local_to_map(pos)
+	if ( InventoryManager.stone_count > 0 and
+		GameManager.tilemap.get_cell_tile_data(0, cell_coords) == null ):
+			GameManager.tilemap.set_cell(0, cell_coords, 0, tile_atlas_index)
+			InventoryManager.stone_count -= 1

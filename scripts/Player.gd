@@ -60,47 +60,10 @@ func _physics_process(delta) -> void:
 	# Corner Correction
 	#corner_correction()
 	
+	input()
+	
 	move_and_slide()
 	
-	if Input.is_action_pressed("left_click"):
-		GameManager.break_block(get_global_mouse_position())
-		
-		if global_position.distance_to(get_global_mouse_position()) <= reach:
-			$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
-			$DamageBox/Mouse_Collision.disabled = false
-			await get_tree().create_timer(0.1).timeout
-			$DamageBox/Mouse_Collision.disabled = true
-	
-	if Input.is_action_pressed("right_click"):
-		var cell_coords := GameManager.tilemap.local_to_map(get_global_mouse_position())
-		if ( InventoryManager.stone_count > 0 and
-			GameManager.tilemap.get_cell_tile_data(0, cell_coords) == null ):
-				GameManager.tilemap.set_cell(0, cell_coords, 0, Vector2i(2, 0))
-				InventoryManager.stone_count -= 1
-
-	if Input.is_action_pressed("ui_text_submit"):
-		GameManager.spawn_resources.emit()
-	
-	if Input.is_action_just_pressed("test_explosion"):
-		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
-		grenade.global_position = global_position
-		var grenade_direction := (get_global_mouse_position() - global_position).normalized()
-		var grenade_speed := 500
-		grenade.apply_central_impulse(grenade_direction * grenade_speed)
-		GameManager.entities.call_deferred("add_child", grenade)
-		
-		#var explosion = preload("res://scenes/misc/explosion.tscn").instantiate()
-		#explosion.global_position = Vector2.ZERO
-		#explosion.global_position = get_global_mouse_position()
-		#GameManager.entities.call_deferred("add_child", explosion)
-		
-		#$Explosion/CollisionShape2D.global_position = get_global_mouse_position()
-		#var item = preload("res://scenes/test_explosion_particles.tscn").instantiate()
-		#item.global_position = get_global_mouse_position()
-		#GameManager.entities.call_deferred("add_child", item)
-		#$Explosion/CollisionShape2D.disabled = false
-		#await get_tree().create_timer(0.1).timeout
-		#$Explosion/CollisionShape2D.disabled = true
 
 func horizontal_movement() -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -177,6 +140,30 @@ func corner_correction():
 
 		if cc_outer_right.get_collider() != null and cc_inner_right.get_collider() == null:
 			position.x -= cc_push_amount
+
+func input():
+	if Input.is_action_pressed("left_click"):
+		if global_position.distance_to(get_global_mouse_position()) <= reach:
+			GameManager.break_block(get_global_mouse_position())
+			$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
+			$DamageBox/Mouse_Collision.set_deferred("disabled", false)
+			await get_tree().create_timer(0.1).timeout
+			$DamageBox/Mouse_Collision.set_deferred("disabled", true)
+	
+	elif Input.is_action_pressed("right_click"):
+		if global_position.distance_to(get_global_mouse_position()) <= reach:
+			GameManager.place_block(get_global_mouse_position(), Vector2i(2, 0))
+		
+	elif Input.is_action_pressed("ui_text_submit"):
+		GameManager.spawn_resources.emit()
+	
+	elif Input.is_action_just_pressed("test_explosion"):
+		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
+		grenade.global_position = global_position
+		var grenade_direction := (get_global_mouse_position() - global_position).normalized()
+		var grenade_speed := 500
+		grenade.apply_central_impulse(grenade_direction * grenade_speed)
+		GameManager.entities.call_deferred("add_child", grenade)
 
 func pickup(item_id : String) -> void:
 	var sound = load(SoundList.item[randi_range(1, SoundList.item.size())])

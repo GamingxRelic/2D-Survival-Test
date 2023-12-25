@@ -13,7 +13,7 @@ config_version=5
 config/name="Survival Test"
 config/description="Testing out survival game mechanics in Godot 4.2+.
 "
-run/main_scene="res://scenes/levels/TestLevel.tscn"
+run/main_scene="res://scenes/menus/loading_screen.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
 [autoload]

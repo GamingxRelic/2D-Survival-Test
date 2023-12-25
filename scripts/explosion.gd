@@ -16,9 +16,9 @@ func _ready():
 		
 	# Otherwise, activate the collision shape
 	else:
-		collision_shape.disabled = false
+		collision_shape.set_deferred("disabled", false)
 		await get_tree().create_timer(0.1).timeout
-		collision_shape.disabled = true
+		collision_shape.set_deferred("disabled", true)
 		
 	queue_free()
 
@@ -42,6 +42,7 @@ func spawn_circles(points):
 	for point in points:
 		if GameManager.debug:
 			spawn_node2d(point)
+			#GameManager.break_block(to_global(point))
 		else:
 			GameManager.break_block(to_global(point))
 

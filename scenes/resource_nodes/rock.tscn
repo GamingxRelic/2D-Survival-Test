@@ -16,20 +16,20 @@ item_id = "stone"
 hp = 3
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -24.0
-offset_top = -16.0
+offset_top = -32.0
 offset_right = 24.0
-offset_bottom = 16.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 color = Color(0.439216, 0.439216, 0.439216, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_ty2hb")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_tiyf4")]

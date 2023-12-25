@@ -19,6 +19,8 @@ script = ExtResource("1_v46q4")
 
 [node name="Entities" type="Node2D" parent="."]
 
+[node name="Resource_Nodes" type="Node2D" parent="Entities"]
+
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="OLD" type="Node2D" parent="Ground"]
@@ -66,6 +68,7 @@ shape = SubResource("RectangleShape2D_uag84")
 one_way_collision = true
 
 [node name="WorldTile" parent="Ground" instance=ExtResource("2_nggfl")]
+world_x = 256
 
 [node name="Player" parent="." instance=ExtResource("1_ljk2n")]
 position = Vector2(427, -30)

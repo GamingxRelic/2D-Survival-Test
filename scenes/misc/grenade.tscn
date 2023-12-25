@@ -14,7 +14,7 @@ collision_layer = 16
 physics_material_override = SubResource("PhysicsMaterial_xgxnq")
 can_sleep = false
 script = ExtResource("1_jha6p")
-radius = 3.0
+radius = 10.0
 fuse_time = 2.0
 damage = 5
 
