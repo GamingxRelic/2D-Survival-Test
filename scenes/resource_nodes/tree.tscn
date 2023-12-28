@@ -49,7 +49,7 @@ color = Color(0.157648, 0.372185, 0.185691, 1)
 
 [node name="DropHandler" parent="." instance=ExtResource("3_87a1j")]
 drops = {
-ExtResource("4_2qhfw"): 100.0
+ExtResource("4_2qhfw"): 100
 }
 min_drop_count = 3
 max_drop_count = 5

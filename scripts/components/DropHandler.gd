@@ -25,7 +25,7 @@ func drop_items():
 				var y = randf_range(0, y_range) * -1
 				
 				var item = preload("res://scenes/item.tscn").instantiate()
-				item.res = key
+				item.res = key.duplicate()
 				item.global_position = global_position + Vector2(x, y)
 				
 				var radius_x = randf_range(-250, 250)

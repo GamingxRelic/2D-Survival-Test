@@ -38,7 +38,7 @@ shape = SubResource("RectangleShape2D_ty2hb")
 
 [node name="DropHandler" parent="." instance=ExtResource("3_1yenc")]
 drops = {
-ExtResource("4_rj6mg"): 100.0
+ExtResource("4_rj6mg"): 100
 }
 min_drop_count = 2
 max_drop_count = 4

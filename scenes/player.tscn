@@ -1,6 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://ciatbfx13u6rt"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_vnug1"]
+[ext_resource type="Script" path="res://scripts/inventory/inventory_base.gd" id="2_hgf3x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2oxm"]
 size = Vector2(27, 39)
@@ -17,15 +18,15 @@ radius = 5.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6pftg"]
 size = Vector2(27, 40)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ot8lp"]
-radius = 64.0
-
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_vnug1")
 sprint_speed = 400.0
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_hgf3x")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 position = Vector2(0, -12)
@@ -45,45 +46,46 @@ offset_right = 14.0
 offset_bottom = 20.0
 size_flags_horizontal = 4
 
-[node name="PickupRange" type="Area2D" parent="."]
+[node name="Area2Ds" type="Node2D" parent="."]
+
+[node name="PickupRange" type="Area2D" parent="Area2Ds"]
 visible = false
 collision_layer = 2
 collision_mask = 11
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/PickupRange"]
 shape = SubResource("RectangleShape2D_ec7sw")
 
-[node name="ItemPullRange" type="Area2D" parent="."]
+[node name="ItemPullRange" type="Area2D" parent="Area2Ds"]
 visible = false
 collision_layer = 2
 collision_mask = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemPullRange"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/ItemPullRange"]
 shape = SubResource("CircleShape2D_v3vqk")
 
-[node name="DamageBox" type="Area2D" parent="."]
+[node name="DamageBox" type="Area2D" parent="Area2Ds"]
 collision_layer = 2
 collision_mask = 13
 
-[node name="Mouse_Collision" type="CollisionShape2D" parent="DamageBox"]
+[node name="Mouse_Collision" type="CollisionShape2D" parent="Area2Ds/DamageBox"]
 shape = SubResource("CircleShape2D_lnom4")
 disabled = true
 debug_color = Color(0.866667, 0.352941, 0, 0.419608)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2Ds/DamageBox"]
 position = Vector2(27.5, 0)
 shape = SubResource("RectangleShape2D_6pftg")
 disabled = true
 debug_color = Color(0.576471, 0.552941, 0.137255, 0.419608)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="DamageBox"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2Ds/DamageBox"]
 position = Vector2(-27.5, 0)
 shape = SubResource("RectangleShape2D_6pftg")
 disabled = true
 debug_color = Color(0.576471, 0.552941, 0.137255, 0.419608)
 
 [node name="Raycasts" type="Node2D" parent="."]
-visible = false
 
 [node name="StairCheck" type="Node2D" parent="Raycasts"]
 
@@ -92,14 +94,14 @@ position = Vector2(-16, 10)
 target_position = Vector2(0, 8)
 hit_from_inside = true
 
-[node name="RightFoot" type="RayCast2D" parent="Raycasts/StairCheck"]
-position = Vector2(16, 10)
-target_position = Vector2(0, 8)
-hit_from_inside = true
-
 [node name="LeftHead" type="RayCast2D" parent="Raycasts/StairCheck"]
 position = Vector2(-14, -13)
 target_position = Vector2(-16, 0)
+hit_from_inside = true
+
+[node name="RightFoot" type="RayCast2D" parent="Raycasts/StairCheck"]
+position = Vector2(16, 10)
+target_position = Vector2(0, 8)
 hit_from_inside = true
 
 [node name="RightHead" type="RayCast2D" parent="Raycasts/StairCheck"]
@@ -129,17 +131,7 @@ position = Vector2(16, -20)
 target_position = Vector2(0, -8)
 hit_from_inside = true
 
-[node name="Explosion" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 15
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Explosion"]
-shape = SubResource("CircleShape2D_ot8lp")
-disabled = true
-debug_color = Color(0.588235, 0, 0.0941176, 0.419608)
-
-[connection signal="body_entered" from="PickupRange" to="." method="_on_pickup_range_body_entered"]
-[connection signal="body_entered" from="ItemPullRange" to="." method="_on_item_pull_range_body_entered"]
-[connection signal="body_exited" from="ItemPullRange" to="." method="_on_item_pull_range_body_exited"]
-[connection signal="body_entered" from="DamageBox" to="." method="_on_damage_box_body_entered"]
-[connection signal="body_entered" from="Explosion" to="." method="_on_explosion_body_entered"]
+[connection signal="body_entered" from="Area2Ds/PickupRange" to="." method="_on_pickup_range_body_entered"]
+[connection signal="body_entered" from="Area2Ds/ItemPullRange" to="." method="_on_item_pull_range_body_entered"]
+[connection signal="body_exited" from="Area2Ds/ItemPullRange" to="." method="_on_item_pull_range_body_exited"]
+[connection signal="body_entered" from="Area2Ds/DamageBox" to="." method="_on_damage_box_body_entered"]

@@ -32,18 +32,16 @@ var is_jumping := false
 @onready var pickup_audio := $Audio/Pickup
 
 # Corner Correction variables
-@onready var cc_outer_left := $Raycasts/CornerCorrection/OuterLeft
-@onready var cc_inner_left := $Raycasts/CornerCorrection/InnerLeft
-@onready var cc_outer_right := $Raycasts/CornerCorrection/OuterRight
-@onready var cc_inner_right := $Raycasts/CornerCorrection/InnerRight
+@onready var cc_raycasts : Array = $Raycasts/CornerCorrection.get_children()
 @export var cc_push_amount := 3.0
 
 # Stair Check variables
-@onready var sc_head_left := $Raycasts/StairCheck/LeftHead
-@onready var sc_ground_left := $Raycasts/StairCheck/LeftFoot
-@onready var sc_head_right := $Raycasts/StairCheck/RightHead
-@onready var sc_ground_right := $Raycasts/StairCheck/RightFoot
-@export var sc_push_amount := 160.0
+@onready var sc_raycasts : Array = $Raycasts/StairCheck.get_children()
+@export var sc_x_push_amount := 2.0
+@export var sc_y_push_amount := 8.0
+
+# Inventory
+@onready var inv : Inventory = $Inventory as Inventory
 
 func _physics_process(delta) -> void:
 	GameManager.player_pos = global_position
@@ -55,10 +53,10 @@ func _physics_process(delta) -> void:
 	horizontal_movement()
 	
 	# Stair Check
-	#stair_check()
+	stair_check()
 	
 	# Corner Correction
-	#corner_correction()
+	corner_correction()
 	
 	input()
 	
@@ -126,61 +124,67 @@ func remember_jump_time() -> void:
 
 func stair_check():
 	if velocity.x != 0:
-		if velocity.x < 0 and velocity.y == 0 and sc_ground_left.get_collider() != null and sc_head_left.get_collider() == null:
-			velocity.x -= sc_push_amount
-			velocity.y -= sc_push_amount
-		if velocity.x > 0 and velocity.y == 0 and sc_ground_right.get_collider() != null and sc_head_right.get_collider() == null:
-			velocity.x += sc_push_amount
-			velocity.y -= sc_push_amount
+		if velocity.x < 0 and velocity.y == 0 and sc_raycasts[0].get_collider() != null and sc_raycasts[1].get_collider() == null:
+			position.x -= sc_x_push_amount
+			position.y -= sc_y_push_amount
+		if velocity.x > 0 and velocity.y == 0 and sc_raycasts[2].get_collider() != null and sc_raycasts[3].get_collider() == null:
+			position.x += sc_x_push_amount
+			position.y -= sc_y_push_amount
 
 func corner_correction():
 	if velocity.y < 0:
-		if cc_outer_left.get_collider() != null and cc_inner_left.get_collider() == null:
+		if cc_raycasts[0].get_collider() != null and cc_raycasts[1].get_collider() == null:
 			position.x += cc_push_amount
 
-		if cc_outer_right.get_collider() != null and cc_inner_right.get_collider() == null:
+		if cc_raycasts[2].get_collider() != null and cc_raycasts[3].get_collider() == null:
 			position.x -= cc_push_amount
 
 func input():
-	if Input.is_action_pressed("left_click"):
+	if Input.is_action_just_pressed("left_click"):
 		if global_position.distance_to(get_global_mouse_position()) <= reach:
+			var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
 			GameManager.break_block(get_global_mouse_position())
-			$DamageBox/Mouse_Collision.global_position = get_global_mouse_position()
-			$DamageBox/Mouse_Collision.set_deferred("disabled", false)
+			mouse_col.global_position = get_global_mouse_position()
+			mouse_col.set_deferred("disabled", false)
 			await get_tree().create_timer(0.1).timeout
-			$DamageBox/Mouse_Collision.set_deferred("disabled", true)
+			mouse_col.set_deferred("disabled", true)
 	
-	elif Input.is_action_pressed("right_click"):
+	elif Input.is_action_just_pressed("right_click"):
 		if global_position.distance_to(get_global_mouse_position()) <= reach:
 			GameManager.place_block(get_global_mouse_position(), Vector2i(2, 0))
 		
 	elif Input.is_action_pressed("ui_text_submit"):
 		GameManager.spawn_resources.emit()
 	
-	elif Input.is_action_just_pressed("test_explosion"):
+	elif Input.is_action_just_pressed("grenade"):
 		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
 		grenade.global_position = global_position
 		var grenade_direction := (get_global_mouse_position() - global_position).normalized()
 		var grenade_speed := 500
 		grenade.apply_central_impulse(grenade_direction * grenade_speed)
 		GameManager.entities.call_deferred("add_child", grenade)
+		
+	elif Input.is_action_just_pressed("inventory"):
+		inv.print_info()
 
-func pickup(item_id : String) -> void:
+func pickup(item : Item) -> void:
 	var sound = load(SoundList.item[randi_range(1, SoundList.item.size())])
 	pickup_audio.stream = sound
 	pickup_audio.play()
 	
-	match item_id:
-		"stone":
-			InventoryManager.stone_count += 1
-		"wood":
-			InventoryManager.wood_count += 1
-		"dirt":
-			InventoryManager.dirt_count += 1
+	inv.add_item(item)
+	
+	#match item_id:
+		#"stone":
+			#InventoryManager.stone_count += 1
+		#"wood":
+			#InventoryManager.wood_count += 1
+		#"dirt":
+			#InventoryManager.dirt_count += 1
 
 func _on_pickup_range_body_entered(body) -> void:
 	if body.is_in_group("item"):
-		pickup(body.res.id)
+		pickup(body.res)
 		body.queue_free()
 		
 func _on_damage_box_body_entered(body):
@@ -197,7 +201,3 @@ func _on_item_pull_range_body_exited(body):
 	if body.is_in_group("item"):
 		body.stop_following_player()
 
-
-func _on_explosion_body_entered(body):
-	if body.is_in_group("can_damage"):
-		body.damage(5)

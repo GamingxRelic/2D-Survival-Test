@@ -4,7 +4,11 @@ TODO:
 	
 	1. Add inventory system
 		a. Make a UI for it
-		b. Item slots with items in it. Minecraft inventory style.
+		b. Item slots with items in it. Minecraft/Terraria inventory style.
+		c. Find good max stack size. Maybe 999 or 9999?
+			i. Maybe make it a singleton's variable of stack size multiplier. Then 
+				on the world_tile.tscn loop through the atlas and change the customdata variable
+				to by the Item resource's quantity * stack_size_multiplier
 	
 	2. Add crafting system
 		a. Using the materials in your inventory, add crafting bench or something

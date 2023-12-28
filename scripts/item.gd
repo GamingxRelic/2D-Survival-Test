@@ -5,7 +5,6 @@ extends RigidBody2D
 # If there are, they should combine stack sizes.
 
 @export var res : Item
-@export var count : int
 
 var following_player := false
 var max_speed := 250.0
