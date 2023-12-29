@@ -36,28 +36,7 @@ func _on_health_component_death():
 		drop_handler.set_ranges(item_spawn_range_x, item_spawn_range_y)
 		
 		drop_handler.drop_items()
-		#var item_amount = randi_range(min_item_drops,max_item_drops)
-		#for i in item_amount:
-			#randomize()
-			
-			## Create item scene
-			#var item = preload("res://scenes/item.tscn").instantiate()
-			#item.global_position = global_position
-			#
-			## Spawn items anywhere horizontally within the resource node
-			#item.global_position.x += randf_range(-item_spawn_range_x, item_spawn_range_x) 
-			#
-			## Spawn items anywhere vertically within the resource node
-			#item.global_position.y -= randf_range(0, item_spawn_range_y) 
-			#
-			#item.res = load(ItemIDs.id[item_id]).duplicate()
-			#
-			## Make items shoot out in a random direction from where they spawn
-			#var radius_x = randf_range(-250, 250)
-			#var radius_y = randf_range(-500, 0)
-			#item.apply_central_impulse(Vector2(radius_x, radius_y))
-			#
-			#GameManager.entities.call_deferred("add_child", item)
+		
 		hide()
 		await $Audio.finished
 		queue_free()

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://d23xll87ubhgf"]
+
+[ext_resource type="Script" path="res://scripts/ui/InventoryUI.gd" id="1_g3v6i"]
+
+[node name="InventoryUI" type="CanvasLayer"]
+script = ExtResource("1_g3v6i")
+width = 5
+height = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1.0
+offset_bottom = 1.0
+mouse_filter = 0

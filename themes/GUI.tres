@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bbj6advrfdvyt"]
+
+[ext_resource type="Texture2D" uid="uid://gn7aaou6wp2x" path="res://assets/ui/inventory/item_slot.png" id="1_aj447"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gydlp"]
+texture = ExtResource("1_aj447")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[resource]
+PanelContainer/colors/panel = Color(0, 0, 0, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_gydlp")

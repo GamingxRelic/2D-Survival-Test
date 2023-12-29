@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbpphidty7s3u"]
+
+[ext_resource type="Script" path="res://scripts/ui/inventory_slot.gd" id="1_mk3br"]
+[ext_resource type="Texture2D" uid="uid://gn7aaou6wp2x" path="res://assets/ui/inventory/item_slot.png" id="2_tia3h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ikin"]
+font_size = 8
+
+[node name="InventorySlot" type="Control"]
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 3
+anchor_right = 0.046875
+anchor_bottom = 0.0833333
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mk3br")
+metadata/_edit_use_anchors_ = true
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.792157)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tia3h")
+metadata/_edit_use_anchors_ = true
+
+[node name="Item" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0645576
+anchor_top = 0.0645576
+anchor_right = 0.953447
+anchor_bottom = 0.953447
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="Quantity" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0925926
+anchor_top = 0.740741
+anchor_right = 0.907407
+anchor_bottom = 0.907407
+mouse_filter = 1
+label_settings = SubResource("LabelSettings_5ikin")
+horizontal_alignment = 2
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

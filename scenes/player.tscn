@@ -1,13 +1,13 @@
 [gd_scene load_steps=8 format=3 uid="uid://ciatbfx13u6rt"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_vnug1"]
-[ext_resource type="Script" path="res://scripts/inventory/inventory_base.gd" id="2_hgf3x"]
+[ext_resource type="PackedScene" uid="uid://d23xll87ubhgf" path="res://scenes/ui/inventory/inventory_ui.tscn" id="2_mx2mj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2oxm"]
 size = Vector2(27, 39)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ec7sw"]
-size = Vector2(40, 52)
+size = Vector2(24, 36)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v3vqk"]
 radius = 77.0
@@ -25,8 +25,10 @@ collision_mask = 3
 script = ExtResource("1_vnug1")
 sprint_speed = 400.0
 
-[node name="Inventory" type="Node" parent="."]
-script = ExtResource("2_hgf3x")
+[node name="InventoryUI" parent="." instance=ExtResource("2_mx2mj")]
+visible = false
+width = 9
+height = 4
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 position = Vector2(0, -12)
@@ -49,7 +51,6 @@ size_flags_horizontal = 4
 [node name="Area2Ds" type="Node2D" parent="."]
 
 [node name="PickupRange" type="Area2D" parent="Area2Ds"]
-visible = false
 collision_layer = 2
 collision_mask = 11
 
@@ -95,8 +96,8 @@ target_position = Vector2(0, 8)
 hit_from_inside = true
 
 [node name="LeftHead" type="RayCast2D" parent="Raycasts/StairCheck"]
-position = Vector2(-14, -13)
-target_position = Vector2(-16, 0)
+position = Vector2(-14, -9)
+target_position = Vector2(-8, 0)
 hit_from_inside = true
 
 [node name="RightFoot" type="RayCast2D" parent="Raycasts/StairCheck"]
@@ -105,8 +106,8 @@ target_position = Vector2(0, 8)
 hit_from_inside = true
 
 [node name="RightHead" type="RayCast2D" parent="Raycasts/StairCheck"]
-position = Vector2(14, -13)
-target_position = Vector2(16, 0)
+position = Vector2(14, -9)
+target_position = Vector2(8, 0)
 hit_from_inside = true
 
 [node name="CornerCorrection" type="Node2D" parent="Raycasts"]

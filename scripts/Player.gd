@@ -5,6 +5,11 @@ extends CharacterBody2D
 @export var sprint_speed := 350.0
 var sprinting := false
 
+enum facing {
+	LEFT = -1,
+	RIGHT = 1
+}
+
 # Attack 
 var attack_damage := 1.0
 @export var reach := 128.0
@@ -41,7 +46,7 @@ var is_jumping := false
 @export var sc_y_push_amount := 8.0
 
 # Inventory
-@onready var inv : Inventory = $Inventory as Inventory
+@onready var inv := $InventoryUI
 
 func _physics_process(delta) -> void:
 	GameManager.player_pos = global_position
@@ -71,6 +76,11 @@ func horizontal_movement() -> void:
 		sprinting = true
 	if !Input.is_action_pressed("sprint") and is_on_floor():
 		sprinting = false
+	
+	if direction < 0:
+		GameManager.player_facing = facing.LEFT # Left
+	elif direction > 0:
+		GameManager.player_facing = facing.RIGHT # Right
 	
 	if direction:
 		if sprinting:
@@ -140,7 +150,9 @@ func corner_correction():
 			position.x -= cc_push_amount
 
 func input():
-	if Input.is_action_just_pressed("left_click"):
+	
+	#if Input.is_action_just_pressed("left_click"):
+	if Input.is_action_pressed("left_click") and !GameManager.mouse_over_ui:
 		if global_position.distance_to(get_global_mouse_position()) <= reach:
 			var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
 			GameManager.break_block(get_global_mouse_position())
@@ -149,9 +161,16 @@ func input():
 			await get_tree().create_timer(0.1).timeout
 			mouse_col.set_deferred("disabled", true)
 	
-	elif Input.is_action_just_pressed("right_click"):
+	#elif Input.is_action_just_pressed("right_click"):
+	if Input.is_action_pressed("right_click") and !GameManager.mouse_over_ui:
 		if global_position.distance_to(get_global_mouse_position()) <= reach:
-			GameManager.place_block(get_global_mouse_position(), Vector2i(2, 0))
+			GameManager.place_block(get_global_mouse_position(), TileList.tile["STONE"])
+			
+	#if Input.is_action_just_pressed("middle_click") and !GameManager.mouse_over_ui:
+		#var item = preload("res://scenes/item.tscn").instantiate()
+		#item.global_position = get_global_mouse_position()
+		#item.res = load("res://resources/item/apple.tres").duplicate()
+		#GameManager.item_entities.call_deferred("add_child", item)
 		
 	elif Input.is_action_pressed("ui_text_submit"):
 		GameManager.spawn_resources.emit()
@@ -165,27 +184,24 @@ func input():
 		GameManager.entities.call_deferred("add_child", grenade)
 		
 	elif Input.is_action_just_pressed("inventory"):
-		inv.print_info()
+		if !InventoryManager.inventory_opened:
+			inv.open()
+		else:
+			InventoryManager.close_inventory.emit()
 
-func pickup(item : Item) -> void:
-	var sound = load(SoundList.item[randi_range(1, SoundList.item.size())])
-	pickup_audio.stream = sound
-	pickup_audio.play()
+func pickup(item : Item) -> bool:
+	if inv.add_item(item):
+		var sound = load(SoundList.item[randi_range(1, SoundList.item.size())])
+		pickup_audio.stream = sound
+		pickup_audio.play()
+		return true
+	return false
 	
-	inv.add_item(item)
 	
-	#match item_id:
-		#"stone":
-			#InventoryManager.stone_count += 1
-		#"wood":
-			#InventoryManager.wood_count += 1
-		#"dirt":
-			#InventoryManager.dirt_count += 1
-
 func _on_pickup_range_body_entered(body) -> void:
 	if body.is_in_group("item"):
-		pickup(body.res)
-		body.queue_free()
+		if pickup(body.res):
+			body.queue_free()
 		
 func _on_damage_box_body_entered(body):
 	if body.is_in_group("resource"):

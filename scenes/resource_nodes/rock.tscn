@@ -35,6 +35,7 @@ shape = SubResource("RectangleShape2D_ty2hb")
 [node name="HealthComponent" parent="." instance=ExtResource("2_tiyf4")]
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
 
 [node name="DropHandler" parent="." instance=ExtResource("3_1yenc")]
 drops = {

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://1a4v8k6ayxoy"]
+
+[ext_resource type="Script" path="res://resources/item/base_item.gd" id="1_vm1vi"]
+[ext_resource type="Texture2D" uid="uid://bt6n6twdhw66y" path="res://assets/sprites/items/apple.png" id="2_8ldwg"]
+
+[resource]
+script = ExtResource("1_vm1vi")
+name = "Apple"
+id = "apple"
+type = "CONSUMABLE"
+consumable_type = "EDIBLE"
+texture = ExtResource("2_8ldwg")
+quantity = 1
+max_quantity = 1

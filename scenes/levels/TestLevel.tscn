@@ -19,7 +19,9 @@ script = ExtResource("1_v46q4")
 
 [node name="Entities" type="Node2D" parent="."]
 
-[node name="Resource_Nodes" type="Node2D" parent="Entities"]
+[node name="ResourceNodes" type="Node2D" parent="Entities"]
+
+[node name="ItemEntities" type="Node2D" parent="Entities"]
 
 [node name="Ground" type="Node2D" parent="."]
 

@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://y6dsw12hi4d3"]
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://y6dsw12hi4d3"]
 
 [ext_resource type="Script" path="res://resources/item/base_item.gd" id="1_hou2g"]
+[ext_resource type="Texture2D" uid="uid://dxe06ql76leb1" path="res://assets/sprites/items/dirt.png" id="2_ur6jm"]
 
 [resource]
 script = ExtResource("1_hou2g")
@@ -9,5 +10,6 @@ id = "dirt"
 type = "MATERIAL"
 consumable_type = ""
 color = Color(0.478431, 0.282353, 0.254902, 1)
+texture = ExtResource("2_ur6jm")
 quantity = 1
-max_quantity = 99
+max_quantity = 999
