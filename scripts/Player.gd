@@ -48,6 +48,9 @@ var is_jumping := false
 # Inventory
 @onready var inv := $InventoryUI
 
+#func _ready() -> void:
+	#InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
+
 func _physics_process(delta) -> void:
 	GameManager.player_pos = global_position
 
@@ -183,11 +186,13 @@ func input():
 		grenade.apply_central_impulse(grenade_direction * grenade_speed)
 		GameManager.entities.call_deferred("add_child", grenade)
 		
-	#elif Input.is_action_just_pressed("inventory"):
-		#if !InventoryManager.inventory_opened:
-			#inv.open()
-		#else:
-			#InventoryManager.close_inventory.emit()
+	elif Input.is_action_just_pressed("inventory"):
+		if InventoryManager.inventory_opened:
+			InventoryManager.close_inventory.emit()
+		else:
+			InventoryManager.open_player_inventory.emit()
+			inv.open()
+			$InventoryUI2.open()
 
 func pickup(item : Item) -> bool:
 	if inv.add_item(item):
@@ -217,3 +222,5 @@ func _on_item_pull_range_body_exited(body):
 	if body.is_in_group("item"):
 		body.stop_following_player()
 
+#func _on_open_player_inventory() -> void:
+	#inv.open()

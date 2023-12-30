@@ -29,11 +29,7 @@ func add_item(item : Item) -> bool:
 				else:
 					return true
 	
-	full = true
-	
-	for i in items.size():
-		if items[i] == null:
-			full = false
+	is_full()
 	
 	if !full:
 		for i in items.size():
@@ -42,6 +38,15 @@ func add_item(item : Item) -> bool:
 				return true
 
 	return false
+
+func is_full() -> bool:
+	full = true
+	
+	for i in items.size():
+		if items[i] == null:
+			full = false
+			
+	return full
 
 func print_inv() -> void:
 	print("------- Inventory ---------")

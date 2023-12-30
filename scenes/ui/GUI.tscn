@@ -4,3 +4,5 @@
 
 [node name="GUI" type="CanvasLayer"]
 script = ExtResource("1_dv7ob")
+
+[node name="GhostItem" type="Node2D" parent="."]

@@ -23,6 +23,7 @@ GameManager="*res://scripts/singletons/GameManager.gd"
 InventoryManager="*res://scripts/singletons/InventoryManager.gd"
 ItemIDs="*res://scripts/singletons/ItemIDs.gd"
 TileList="*res://scripts/singletons/TileList.gd"
+UIManager="*res://scripts/singletons/UIManager.gd"
 
 [display]
 
