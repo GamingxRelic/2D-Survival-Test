@@ -28,6 +28,10 @@ TileList="*res://scripts/singletons/TileList.gd"
 
 window/stretch/mode="canvas_items"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [gui]
 
 theme/custom_font="res://assets/fonts/PressStart2P-Regular.ttf"

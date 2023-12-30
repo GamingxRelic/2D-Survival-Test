@@ -8,11 +8,17 @@ var slot_count : int
 var inv : InventoryBase = InventoryBase.new()
 var slots : Array
 
-var ghost_item
+var ghost_item 
 
 @onready var scroll_container = $ScrollContainer
 
+var mouse_down_slots_entered : Array = []
+
+var _drag_split_amount : int
+var _drag_remainder : int
+
 func _ready():
+	InventoryManager.open_player_inventory.connect(open)
 	InventoryManager.close_inventory.connect(close)
 	
 	slot_count = width * height
@@ -37,20 +43,56 @@ func _ready():
 			h_box.add_child(item_slot)
 			slots.append(item_slot)
 			item_slot.action_event.connect(_on_slot_clicked)
+			item_slot.mouse_entered_slot.connect(_on_mouse_entered_slot)
 		
 		v_box.add_child(h_box)
 	
 	scroll_container.add_child(v_box)
 
 func _process(_delta):
-	if visible and ghost_item != null and !GameManager.mouse_over_ui and Input.is_action_just_pressed("left_click"):
-		drop_ghost_item()
-	elif visible and ghost_item != null and !GameManager.mouse_over_ui and Input.is_action_just_pressed("right_click"):
-		drop_one()
+	if visible and ghost_item != null and !GameManager.mouse_over_ui:
+		if Input.is_action_just_pressed("left_click"):
+			drop_ghost_item()
+		elif Input.is_action_just_pressed("right_click"):
+			drop_one()
 	
 	if Input.is_action_just_pressed("down"):
 		inv.sort()
 		update_all_slots()
+		
+	if !mouse_down_slots_entered.is_empty():
+		
+		if Input.is_action_just_released("left_click"):
+			if mouse_down_slots_entered.size() == 1:
+				var index = mouse_down_slots_entered[0]
+				var slot_item = ghost_item.res.duplicate()
+				inv.items[index] = slot_item
+				update_slot(index)
+			else:
+				for i in mouse_down_slots_entered:
+					var slot_item = ghost_item.res.duplicate()
+					slot_item.quantity = _drag_split_amount
+					inv.items[i] = slot_item
+					update_slot(i)
+			
+			mouse_down_slots_entered.clear()
+			_drag_remainder = 0
+			_drag_split_amount = 0
+			
+			if ghost_item != null:
+				ghost_item.set_quantity_to_visible_quantity()
+				if ghost_item.res.quantity == 0:
+					ghost_item.queue_free()
+					ghost_item = null
+		
+		elif Input.is_action_just_released("right_click"):
+			mouse_down_slots_entered.clear()
+	
+	if Input.is_action_just_pressed("inventory"):
+		if InventoryManager.inventory_opened:
+			InventoryManager.close_inventory.emit()
+		else:
+			InventoryManager.open_player_inventory.emit()
 
 func update_all_slots():
 	for i in slots.size():
@@ -66,36 +108,84 @@ func set_slot(index : int, item : Item):
 
 func _on_slot_clicked(event : String, slot):
 	var index = slots.find(slot)
-	match event:
-		# Logic for left click
-		"left_click":
-			if slots[index].res != null and ghost_item == null:
-				# Pickup item and make a ghost item
-				ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
-				add_child(ghost_item)
-				ghost_item.set_info(inv.items[index])
-				inv.items[index] = null
-				update_slot(index)
-			elif slots[index].res == null and ghost_item != null:
-				# Place ghost item in empty slot
-				inv.items[index] = ghost_item.res
-				update_slot(index)
-				ghost_item.queue_free()
-				ghost_item = null
-			elif slots[index].res != null and ghost_item != null:
-				if slots[index].res.max_quantity > 1 and slots[index].res.id == ghost_item.res.id:
-					combine(index)
-				else:
-					swap(index)
+	if mouse_down_slots_entered.is_empty():
+		match event:
+			# Logic for left click
+			"left_click":
+				if slots[index].res != null and ghost_item == null:
+					# Pickup item and make a ghost item
+					ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
+					add_child(ghost_item)
+					ghost_item.set_info(inv.items[index])
+					inv.items[index] = null
+					update_slot(index)
+				elif slots[index].res == null and ghost_item != null:
+					# Place ghost item in empty slot
+					mouse_down_slots_entered.append(index)
+					inv.items[index] = ghost_item.res.duplicate()
+					update_slot(index)
+					#ghost_item.queue_free()
+					#ghost_item = null
+					
+					
+				elif slots[index].res != null and ghost_item != null:
+					if slots[index].res.max_quantity > 1 and slots[index].res.id == ghost_item.res.id:
+						combine(index)
+					else:
+						swap(index)
+					
+			# Logic for right click
+			"right_click":
+				if slots[index].res != null and ghost_item == null:
+					split(index)
+				elif slots[index].res == null and ghost_item != null:
+					place_one(index)
+					mouse_down_slots_entered.append(index)
+				elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
+					add_one(index)
+					mouse_down_slots_entered.append(index)
+
+func _on_mouse_entered_slot(slot):
+	var index = slots.find(slot)
+	if Input.is_action_pressed("left_click"):
+		if ghost_item != null and slots[index].res == null:
+			for i in mouse_down_slots_entered:
+				if i == index:
+					return
+			mouse_down_slots_entered.append(index)
+			
+			var quantity : int = ghost_item.res.quantity
+			
+			if mouse_down_slots_entered.size() <= quantity:
 				
-		# Logic for right click
-		"right_click":
-			if slots[index].res != null and ghost_item == null:
-				split(index)
-			elif slots[index].res == null and ghost_item != null:
-				place_one(index)
-			elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
-				add_one(index)
+				_drag_split_amount = floori(quantity / mouse_down_slots_entered.size())
+				_drag_remainder = quantity - (_drag_split_amount * mouse_down_slots_entered.size())
+				
+				ghost_item.set_visible_quantity(_drag_remainder)
+				
+			#for i in mouse_down_slots_entered:
+				##if inv.items[i] == null:
+				#var slot_item = ghost_item.res.duplicate()
+				#slot_item.quantity = _drag_split_amount
+				#inv.items[index] = slot_item
+				#update_slot(i)
+				#if inv.items[i].id == ghost_item.res.id:
+					
+			
+	
+	elif Input.is_action_pressed("right_click"):
+		if ghost_item != null and slots[index].res == null:
+			for i in mouse_down_slots_entered:
+				if i == index:
+					return
+			place_one(index)
+			mouse_down_slots_entered.append(index)
+		elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
+			for i in mouse_down_slots_entered:
+				if i == index:
+					return
+			add_one(index)
+			mouse_down_slots_entered.append(index)
 
 func place_one(index : int):
 	var slot_item = ghost_item.res.duplicate()
@@ -134,7 +224,7 @@ func combine(index : int):
 	var remainder = inv.items[index].combine(ghost_item.res.quantity)
 	
 	if remainder > 0:
-		ghost_item.res.quantity -= remainder
+		ghost_item.res.quantity = remainder
 		ghost_item.update_quantity()
 	else:
 		ghost_item.queue_free()
@@ -147,7 +237,7 @@ func split(index : int):
 	if inv.items[index].quantity == 1:
 		half = 1.0
 	else:
-		half = floori(inv.items[index].quantity/2.0)
+		half = ceili(inv.items[index].quantity/2.0)
 	
 	inv.items[index].quantity -= half
 	
@@ -201,6 +291,14 @@ func open():
 	show()
 	
 func close():
+	if !mouse_down_slots_entered.is_empty() and Input.is_action_pressed("left_click"):
+			ghost_item.set_quantity_to_visible_quantity()
+			_drag_remainder = 0
+			_drag_split_amount = 0
+			if ghost_item.res.quantity == 0:
+				ghost_item.queue_free()
+				ghost_item = null
+				
 	if ghost_item != null:
 		drop_ghost_item()
 	

@@ -27,7 +27,7 @@ func break_block(pos : Vector2):
 		item.global_position = GameManager.tilemap.map_to_local(cell_coords)
 		item.global_position += Vector2(randf_range(-8,8), randf_range(-8,8))
 		item.res = data.get_custom_data("material").duplicate()
-		#item.res.quantity = 10
+		item.res.quantity = 10
 		
 		# Give the item an impulse when it spawns to make it look like it shot out the block
 		var radius_x = randf_range(-50, 50)

@@ -21,7 +21,7 @@ func _ready() -> void:
 func _physics_process(_delta):
 	if following_player:
 		var x = (global_position.x - GameManager.player_pos.x)
-		var y = (global_position.y - GameManager.player_pos.y)
+		var y = (global_position.y - GameManager.player_pos.y + 12)
 		apply_central_force(follow_player_speed * Vector2(x, y))
 	if !following_player:
 		if GameManager.tilemap.get_cell_tile_data(0, GameManager.tilemap.local_to_map(global_position)) != null:

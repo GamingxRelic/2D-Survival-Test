@@ -183,11 +183,11 @@ func input():
 		grenade.apply_central_impulse(grenade_direction * grenade_speed)
 		GameManager.entities.call_deferred("add_child", grenade)
 		
-	elif Input.is_action_just_pressed("inventory"):
-		if !InventoryManager.inventory_opened:
-			inv.open()
-		else:
-			InventoryManager.close_inventory.emit()
+	#elif Input.is_action_just_pressed("inventory"):
+		#if !InventoryManager.inventory_opened:
+			#inv.open()
+		#else:
+			#InventoryManager.close_inventory.emit()
 
 func pickup(item : Item) -> bool:
 	if inv.add_item(item):
