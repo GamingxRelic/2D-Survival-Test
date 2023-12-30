@@ -8,7 +8,7 @@ font_size = 8
 
 [node name="GhostItem" type="Control"]
 top_level = true
-custom_minimum_size = Vector2(54, 54)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2

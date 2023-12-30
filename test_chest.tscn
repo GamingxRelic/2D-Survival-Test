@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnw0frco7ombw"]
+
+[ext_resource type="Script" path="res://TestChest.gd" id="1_541oq"]
+[ext_resource type="PackedScene" uid="uid://d23xll87ubhgf" path="res://scenes/ui/inventory/inventory_ui.tscn" id="2_q41il"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lgcw4"]
+size = Vector2(65, 65)
+
+[node name="TestChest" type="StaticBody2D"]
+script = ExtResource("1_541oq")
+
+[node name="Sprite2D" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.5, 2.5)
+color = Color(0.184314, 0.12549, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_lgcw4")
+
+[node name="InventoryUI" parent="." instance=ExtResource("2_q41il")]
+visible = false
+width = 9
+height = 4
+ui_offset = Vector2(0, 216)
+
+[connection signal="gui_input" from="Sprite2D" to="." method="_on_sprite_2d_gui_input"]

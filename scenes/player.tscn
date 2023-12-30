@@ -27,17 +27,9 @@ sprint_speed = 400.0
 
 [node name="InventoryUI" parent="." instance=ExtResource("2_mx2mj")]
 visible = false
-width = 3
-height = 1
-player_inventory = true
-
-[node name="InventoryUI2" parent="." instance=ExtResource("2_mx2mj")]
-visible = false
-offset = Vector2(100, -100)
-transform = Transform2D(1, 0, 0, 1, 100, -100)
 width = 9
 height = 4
-ui_offset = Vector2(0, 216)
+player_inventory = true
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 position = Vector2(0, -12)

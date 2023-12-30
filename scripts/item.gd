@@ -7,8 +7,10 @@ extends RigidBody2D
 @export var res : Item
 
 var following_player := false
-var max_speed := 250.0
-var follow_player_speed := Vector2(-30,-115)
+var max_speed : float
+var max_follow_speed := 150.0
+var max_normal_speed := 250.0
+var follow_player_speed := Vector2(-30,-50)
 var inside_tile := false
 
 @onready var texture_rect = $TextureRect
@@ -20,10 +22,12 @@ func _ready() -> void:
 	
 func _physics_process(_delta):
 	if following_player:
+		max_speed = max_follow_speed
 		var x = (global_position.x - GameManager.player_pos.x)
 		var y = (global_position.y - GameManager.player_pos.y + 12)
 		apply_central_force(follow_player_speed * Vector2(x, y))
 	if !following_player:
+		max_speed = max_normal_speed
 		if GameManager.tilemap.get_cell_tile_data(0, GameManager.tilemap.local_to_map(global_position)) != null:
 			inside_tile = true
 			set_collision_mask_value(1, false)

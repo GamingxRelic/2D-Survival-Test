@@ -16,6 +16,10 @@ config/description="Testing out survival game mechanics in Godot 4.2+.
 run/main_scene="res://scenes/menus/loading_screen.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
+[audio]
+
+buses/default_bus_layout="res://assets/audio/audio_bus_layout.tres"
+
 [autoload]
 
 SoundList="*res://scripts/singletons/SoundList.gd"

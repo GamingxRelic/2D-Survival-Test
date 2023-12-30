@@ -3,29 +3,76 @@ TODO:
 	https://docs.google.com/spreadsheets/d/1mTOjAntssnMLQDWoCWf8T_ZWNkzT8XOPyx8nhNfLluM/edit?usp=sharing
 	
 	1. Add inventory system
-		~a. Make a UI for it~
-		~b. Item slots with items in it. Minecraft/Terraria inventory style.~
-		~c. Find good max stack size. Maybe 999 or 9999?~
-			i. Maybe make it a singleton's variable of stack size multiplier. Then 
+		a. Add left click drag that splits stack evenly and divies up ghost item quantity
+			i. Perhaps create a ghost inventory slot / make inventory slot have a change
+				visible item function. 
+			ii. Reference Minecraft left click + drag splitting. 
+				1. Skips over items of different ID.
+				2. Adds quantity to items of same ID
+				3. Cancels with right click, cancels with sort, cancels with exit inventory. 
+					Basically any other inputs cancel the split. 
+				4. When you are holding left click and you drag, it previews the split of items. 
+				5. Perhaps keep an array of indexes of the slots you drag over and split along
+					the inventory/slots at those indexes. 
+		
+			idea:  Maybe make it a singleton's variable of stack size multiplier. Then 
 				on the world_tile.tscn loop through the atlas and change the customdata variable
 				to by the Item resource's quantity * stack_size_multiplier
 		
-		d. Add label so when you hover over an item slot, it gives a bit of information such as name,
+		b. Add label so when you hover over an item slot, it gives a bit of information such as name,
 			equipment stats, etc. of the item. (If the item slot's res isn't null, ofcourse). 
 	
-	2. Add crafting system
-		a. Using the materials in your inventory, add crafting bench or something
-			to use those materials to craft tools.
 	
-	3. Add building system.
-		a. Make placeable on a grid.
-		b. Use tilemap.
 		
-	4. Add storage / chests / stored inventories
+	3. Add storage / chests / stored inventories
 		a. Inventories should be saved when you open and close the chest.
 		b. You shouldn't be able to break the chest if there are items in it.
 		   ^ Just so you dont have a ton of items flying around when it breaks.
  
-	5. Add world generation.
-		a. Slap together some world gen with tile maps.
-		b. Just a basic one with grass, stone, then on top, trees and rocks. 
+		
+	4. Lighting system similar to Terraria lighting. Try using Image.create_from_data 
+		and generate an image based on an item's light level. (Check Reddit comment)
+	
+	5. Create dynamic building check system that checks a given shape based on a
+		json file similar to how Minecraft crafting recipies are created. 
+		Example could be:
+			Tree
+			
+			size_x = 9
+			size_y = 6
+			
+			# = Tiles.air
+			L = Tiles["LEAVES"]
+			W = Tiles["LOG"]
+			
+			#########    This would
+			#LLLLLLL#    generate a 
+			#LLLLLLL#    tree in this 
+			####W####    shape. 
+			####W####
+			####W####
+
+	6. Add crafting system
+		a. Make it something cool like fully customizable tools. Crafting bench takes in items
+		into a storage and you can craft things in it. 
+		b. Tools will be fully customizable like they are in Tinkers Construct or A Township Tale.
+			i. Each tool part has different stats that add together to make a complete tool.
+			ii. Tool head sets the tool type. 
+			iii. A tool can only be assembled if all parts are there. There will be a blueprint of
+					slots like handle, connector, toolhead and different tool types like in old Tinkers Construct 
+		
+			OLD a. Using the materials in your inventory, add crafting bench or something
+				to use those materials to craft tools.
+	
+	7. Menu with settings for sound, some global variables like difficulty, allow rebinding of input map. 
+		a. World generation will have different settings such as stack multiplier and difficulty. 
+	
+	8. Saving system
+		a. Allow players to save their worlds, player data, settings, input map, etc. 
+	
+	9. Improve World Generation 
+		a. Make world generation better. Add biomes. Add lakes, decorations, etc. 
+		b. Look into chunking.
+		c. Structures.
+		d. Add ocean on both sides of map.
+		e. Eventually look into adding different dimension / world scenes. 

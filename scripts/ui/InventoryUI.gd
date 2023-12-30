@@ -57,16 +57,22 @@ func _ready():
 	
 	scroll_container.add_child(v_box)
 
-func _process(_delta):
-	if visible and ghost_item != null and !GameManager.mouse_over_ui and player_inventory:
-		if Input.is_action_just_pressed("left_click"):
-			drop_ghost_item()
-		elif Input.is_action_just_pressed("right_click"):
-			drop_one()
-	
-	if Input.is_action_just_pressed("down"):
-		inv.sort()
-		update_all_slots()
+#func _process(_delta):
+	# Make it so this isn't being processed all the time. 
+	# It should only be getting processed if the inventory is open.
+
+func _input(event):
+	if visible and event is InputEvent:
+		if ghost_item != null and !GameManager.mouse_over_ui and player_inventory:
+			if Input.is_action_just_pressed("left_click"):
+				drop_ghost_item()
+			elif Input.is_action_just_pressed("right_click"):
+				drop_one()
+				
+		# Move this to a button in the inventory UI. 
+		if Input.is_action_just_pressed("down"):
+			inv.sort()
+			update_all_slots()
 
 func update_all_slots():
 	for i in slots.size():

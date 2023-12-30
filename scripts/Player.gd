@@ -48,8 +48,8 @@ var is_jumping := false
 # Inventory
 @onready var inv := $InventoryUI
 
-#func _ready() -> void:
-	#InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
+func _ready() -> void:
+	InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
 
 func _physics_process(delta) -> void:
 	GameManager.player_pos = global_position
@@ -192,7 +192,7 @@ func input():
 		else:
 			InventoryManager.open_player_inventory.emit()
 			inv.open()
-			$InventoryUI2.open()
+			#$InventoryUI2.open()
 
 func pickup(item : Item) -> bool:
 	if inv.add_item(item):
@@ -222,5 +222,5 @@ func _on_item_pull_range_body_exited(body):
 	if body.is_in_group("item"):
 		body.stop_following_player()
 
-#func _on_open_player_inventory() -> void:
-	#inv.open()
+func _on_open_player_inventory() -> void:
+	inv.open()

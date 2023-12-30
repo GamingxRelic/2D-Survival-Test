@@ -64,13 +64,14 @@ func sort() -> void:
 	
 	# Combine stacks into big stacks
 	_sort_combine(new_array)
-	_sort_quicksort(new_array)
+	#_sort_quicksort(new_array)
+	_sort_quicksort(new_array, 0, new_array.size() - 1)
 	_sort_split(new_array)
 	
 func _sort_combine(new_array : Array[Item]) -> void:
 	for item in items:
 			if item != null:
-				var found = false
+				var found = false	
 				for new_item in new_array:
 					if item.id == new_item.id and new_item.max_quantity > 1:
 						found = true
@@ -81,42 +82,28 @@ func _sort_combine(new_array : Array[Item]) -> void:
 # TODO:
 # Improve quicksort with this:
 
-#func quicksort(arr, low, high):
-	#if low < high:
-		#var pivot_index = partition(arr, low, high)
-		#quicksort(arr, low, pivot_index - 1)
-		#quicksort(arr, pivot_index + 1, high)
+func _sort_quicksort(arr, low, high):
+	if low < high:
+		var pivot_index = _quicksort_partition(arr, low, high)
+		_sort_quicksort(arr, low, pivot_index - 1)
+		_sort_quicksort(arr, pivot_index + 1, high)
 #
-#func partition(arr, low, high) -> int:
-	#var pivot = arr[high]
-	#var i = low - 1
-#
-	#for j in range(low, high):
-		#if arr[j].quantity >= pivot.quantity:
-			#i += 1
-			#swap(arr, i, j)
-#
-	#swap(arr, i + 1, high)
-	#return i + 1
-#
-#func swap(arr, i, j):
-	#var temp = arr[i]
-	#arr[i] = arr[j]
-	#arr[j] = temp
+func _quicksort_partition(arr, low, high) -> int:
+	var pivot = arr[high]
+	var i = low - 1
 
+	for j in range(low, high):
+		if arr[j].quantity >= pivot.quantity:
+			i += 1
+			_quicksort_swap(arr, i, j)
 
-func _sort_quicksort(new_array : Array[Item]) -> void:
-	for i in new_array.size():
-		for j in new_array.size():
-			if j+1 < new_array.size():
-				var curr = new_array[j]
-				var next := new_array[j+1]
-			
-				# If current item quantity is less than next item quantity, swap them
-				if curr.quantity < next.quantity:
-					var temp = curr
-					new_array[j] = next
-					new_array[j+1] = temp
+	_quicksort_swap(arr, i + 1, high)
+	return i + 1
+
+func _quicksort_swap(arr, i, j):
+	var temp = arr[i]
+	arr[i] = arr[j]
+	arr[j] = temp
 
 func _sort_split(array : Array[Item]) -> void:
 	var new_items_array : Array[Item] = []
