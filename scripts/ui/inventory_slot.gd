@@ -28,7 +28,9 @@ func set_info(item : Item):
 
 func _on_gui_input(event):
 	if event is InputEvent:
-		if Input.is_action_just_pressed("left_click"):
+		if Input.is_key_label_pressed(KEY_SHIFT) and Input.is_action_just_pressed("left_click"):
+			action_event.emit("shift_left_click", self)
+		elif Input.is_action_just_pressed("left_click"):
 			action_event.emit("left_click", self)
 		elif Input.is_action_just_pressed("right_click"):
 			action_event.emit("right_click", self)

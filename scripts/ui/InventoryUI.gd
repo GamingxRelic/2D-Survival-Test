@@ -1,24 +1,32 @@
 extends CanvasLayer
+class_name InventoryUI
 
 @export var width : int = 1
 @export var height : int = 1
+
+@export var ui_offset : Vector2
+
+@export var player_inventory := false
 
 var slot_count : int
 
 var inv : InventoryBase = InventoryBase.new()
 var slots : Array
 
-var ghost_item 
+var ghost_item :
+	set(value):
+		InventoryManager.ghost_item = value
+	get:
+		return InventoryManager.ghost_item
 
 @onready var scroll_container = $ScrollContainer
 
-var mouse_down_slots_entered : Array = []
-
-var _drag_split_amount : int
-var _drag_remainder : int
-
 func _ready():
-	InventoryManager.open_player_inventory.connect(open)
+	if player_inventory:
+		InventoryManager.player_inventory = self
+	
+	offset = ui_offset
+	
 	InventoryManager.close_inventory.connect(close)
 	
 	slot_count = width * height
@@ -50,7 +58,7 @@ func _ready():
 	scroll_container.add_child(v_box)
 
 func _process(_delta):
-	if visible and ghost_item != null and !GameManager.mouse_over_ui:
+	if visible and ghost_item != null and !GameManager.mouse_over_ui and player_inventory:
 		if Input.is_action_just_pressed("left_click"):
 			drop_ghost_item()
 		elif Input.is_action_just_pressed("right_click"):
@@ -59,40 +67,6 @@ func _process(_delta):
 	if Input.is_action_just_pressed("down"):
 		inv.sort()
 		update_all_slots()
-		
-	if !mouse_down_slots_entered.is_empty():
-		
-		if Input.is_action_just_released("left_click"):
-			if mouse_down_slots_entered.size() == 1:
-				var index = mouse_down_slots_entered[0]
-				var slot_item = ghost_item.res.duplicate()
-				inv.items[index] = slot_item
-				update_slot(index)
-			else:
-				for i in mouse_down_slots_entered:
-					var slot_item = ghost_item.res.duplicate()
-					slot_item.quantity = _drag_split_amount
-					inv.items[i] = slot_item
-					update_slot(i)
-			
-			mouse_down_slots_entered.clear()
-			_drag_remainder = 0
-			_drag_split_amount = 0
-			
-			if ghost_item != null:
-				ghost_item.set_quantity_to_visible_quantity()
-				if ghost_item.res.quantity == 0:
-					ghost_item.queue_free()
-					ghost_item = null
-		
-		elif Input.is_action_just_released("right_click"):
-			mouse_down_slots_entered.clear()
-	
-	if Input.is_action_just_pressed("inventory"):
-		if InventoryManager.inventory_opened:
-			InventoryManager.close_inventory.emit()
-		else:
-			InventoryManager.open_player_inventory.emit()
 
 func update_all_slots():
 	for i in slots.size():
@@ -108,24 +82,23 @@ func set_slot(index : int, item : Item):
 
 func _on_slot_clicked(event : String, slot):
 	var index = slots.find(slot)
-	if mouse_down_slots_entered.is_empty():
-		match event:
-			# Logic for left click
-			"left_click":
+	match event:
+		# Logic for left click
+		"left_click":
+			if !Input.is_action_pressed("right_click"):
 				if slots[index].res != null and ghost_item == null:
 					# Pickup item and make a ghost item
 					ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
-					add_child(ghost_item)
+					add_ghost_item()
 					ghost_item.set_info(inv.items[index])
 					inv.items[index] = null
 					update_slot(index)
 				elif slots[index].res == null and ghost_item != null:
 					# Place ghost item in empty slot
-					mouse_down_slots_entered.append(index)
 					inv.items[index] = ghost_item.res.duplicate()
 					update_slot(index)
-					#ghost_item.queue_free()
-					#ghost_item = null
+					delete_ghost_item()
+					
 					
 					
 				elif slots[index].res != null and ghost_item != null:
@@ -133,60 +106,45 @@ func _on_slot_clicked(event : String, slot):
 						combine(index)
 					else:
 						swap(index)
-					
-			# Logic for right click
-			"right_click":
+				
+		# Logic for right click
+		"right_click":
+			if !Input.is_action_pressed("left_click"):
 				if slots[index].res != null and ghost_item == null:
 					split(index)
 				elif slots[index].res == null and ghost_item != null:
 					place_one(index)
-					mouse_down_slots_entered.append(index)
 				elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
 					add_one(index)
-					mouse_down_slots_entered.append(index)
+
+		# Logic for shift + left click
+		"shift_left_click":
+				# Quick Transfer items
+				quick_transfer(index)
+					 
 
 func _on_mouse_entered_slot(slot):
 	var index = slots.find(slot)
-	if Input.is_action_pressed("left_click"):
+	if Input.is_action_pressed("right_click") and !Input.is_action_pressed("left_click"):
 		if ghost_item != null and slots[index].res == null:
-			for i in mouse_down_slots_entered:
-				if i == index:
-					return
-			mouse_down_slots_entered.append(index)
-			
-			var quantity : int = ghost_item.res.quantity
-			
-			if mouse_down_slots_entered.size() <= quantity:
-				
-				_drag_split_amount = floori(quantity / mouse_down_slots_entered.size())
-				_drag_remainder = quantity - (_drag_split_amount * mouse_down_slots_entered.size())
-				
-				ghost_item.set_visible_quantity(_drag_remainder)
-				
-			#for i in mouse_down_slots_entered:
-				##if inv.items[i] == null:
-				#var slot_item = ghost_item.res.duplicate()
-				#slot_item.quantity = _drag_split_amount
-				#inv.items[index] = slot_item
-				#update_slot(i)
-				#if inv.items[i].id == ghost_item.res.id:
-					
-			
-	
-	elif Input.is_action_pressed("right_click"):
-		if ghost_item != null and slots[index].res == null:
-			for i in mouse_down_slots_entered:
-				if i == index:
-					return
 			place_one(index)
-			mouse_down_slots_entered.append(index)
 		elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
-			for i in mouse_down_slots_entered:
-				if i == index:
-					return
 			add_one(index)
-			mouse_down_slots_entered.append(index)
 
+func quick_transfer(index : int) -> void:
+	if player_inventory:
+		if inv.items[index] != null and InventoryManager.other_inventory != null:
+			if InventoryManager.other_inventory.add_item(inv.items[index]):
+				inv.items[index] = null
+			InventoryManager.other_inventory.update_all_slots()
+			update_slot(index)
+	else:
+		if inv.items[index] != null:
+			if InventoryManager.player_inventory.add_item(inv.items[index]):
+				inv.items[index] = null
+			InventoryManager.player_inventory.update_all_slots()
+			update_slot(index)
+		
 func place_one(index : int):
 	var slot_item = ghost_item.res.duplicate()
 	slot_item.quantity = 1
@@ -199,9 +157,8 @@ func place_one(index : int):
 	update_slot(index)
 	
 	if ghost_item.res.quantity == 0:
-		ghost_item.queue_free()
-		ghost_item = null
-
+		delete_ghost_item()
+		
 func add_one(index : int):
 	slots[index].res.quantity += 1
 	ghost_item.res.quantity -= 1
@@ -209,9 +166,8 @@ func add_one(index : int):
 	update_slot(index)
 	
 	if ghost_item.res.quantity == 0:
-		ghost_item.queue_free()
-		ghost_item = null
-
+		delete_ghost_item()
+		
 func swap(index : int):
 	var item : Item = inv.items[index].duplicate() as Item
 	inv.items[index] = ghost_item.res
@@ -227,8 +183,8 @@ func combine(index : int):
 		ghost_item.res.quantity = remainder
 		ghost_item.update_quantity()
 	else:
-		ghost_item.queue_free()
-		ghost_item = null
+		delete_ghost_item()
+		
 		
 	update_slot(index)
 	
@@ -245,7 +201,7 @@ func split(index : int):
 	ghost_res.quantity = half
 	
 	ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
-	add_child(ghost_item)
+	add_ghost_item()
 	ghost_item.set_info(ghost_res)
 	
 	if inv.items[index].quantity == 0:
@@ -253,12 +209,10 @@ func split(index : int):
 	
 	update_slot(index)
 	
-	
 func add_item(item : Item) -> bool:
-	if inv.add_item(item):
-		update_all_slots()
-		return true
-	return false
+	var added = inv.add_item(item)
+	update_all_slots()
+	return added
 	
 func drop_ghost_item():
 	if ghost_item != null:
@@ -268,41 +222,45 @@ func drop_ghost_item():
 		item.apply_central_impulse(Vector2(250 * GameManager.player_facing, -80))
 		GameManager.item_entities.add_child(item)
 		item.stall_pickup()
-		ghost_item.queue_free()
-		ghost_item = null
-
+		delete_ghost_item()
+	
 func drop_one():
 	if ghost_item != null:
 		var item = preload("res://scenes/item.tscn").instantiate()
 		item.res = ghost_item.res.duplicate()
 		item.res.quantity = 1
 		ghost_item.res.quantity -= 1
+		ghost_item.update_quantity()
 		item.global_position = GameManager.player_pos
-		item.apply_central_impulse(Vector2(250 * GameManager.player_facing, -80))
-		GameManager.item_entities.add_child(item)
+		item.apply_central_impulse(Vector2(250 * GameManager.player_facing, -80)) # Impulse of -80 away from player
+		GameManager.item_entities.add_child(item) 
 		item.stall_pickup()
 		if ghost_item.res.quantity == 0:
-			ghost_item.queue_free()
-			ghost_item = null
-
+			delete_ghost_item()
+			
 func open():
 	await update_all_slots()
 	InventoryManager.inventory_opened = true
+	if !player_inventory:
+		InventoryManager.other_inventory = self
 	show()
 	
 func close():
-	if !mouse_down_slots_entered.is_empty() and Input.is_action_pressed("left_click"):
-			ghost_item.set_quantity_to_visible_quantity()
-			_drag_remainder = 0
-			_drag_split_amount = 0
-			if ghost_item.res.quantity == 0:
-				ghost_item.queue_free()
-				ghost_item = null
-				
 	if ghost_item != null:
-		drop_ghost_item()
-	
+		if player_inventory and add_item(ghost_item.res):
+			delete_ghost_item()
+		else:
+			drop_ghost_item()
+		
 	InventoryManager.inventory_opened = false
+
+	if !player_inventory:
+		InventoryManager.other_inventory = null
 	hide()
 
-
+func add_ghost_item():
+	UIManager.GUI.add_ghost_item(ghost_item)
+	
+func delete_ghost_item():
+	ghost_item.queue_free()
+	ghost_item = null
