@@ -1,14 +1,34 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bbj6advrfdvyt"]
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bbj6advrfdvyt"]
 
-[ext_resource type="Texture2D" uid="uid://gn7aaou6wp2x" path="res://assets/ui/inventory/item_slot.png" id="1_aj447"]
+[ext_resource type="Texture2D" uid="uid://c0msrv7b0865p" path="res://assets/ui/panel_backdrop.png" id="1_hwhuf"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gydlp"]
-texture = ExtResource("1_aj447")
-texture_margin_left = 1.0
-texture_margin_top = 1.0
-texture_margin_right = 1.0
-texture_margin_bottom = 1.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l1err"]
+texture = ExtResource("1_hwhuf")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jnr45"]
+texture = ExtResource("1_hwhuf")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+draw_center = false
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_731vq"]
+texture = ExtResource("1_hwhuf")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+draw_center = false
 
 [resource]
-PanelContainer/colors/panel = Color(0, 0, 0, 1)
-PanelContainer/styles/panel = SubResource("StyleBoxTexture_gydlp")
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/shadow_outline_size = 4
+Label/font_sizes/font_size = 8
+Panel/styles/panel = SubResource("StyleBoxTexture_l1err")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_jnr45")
+ScrollContainer/styles/panel = SubResource("StyleBoxTexture_731vq")

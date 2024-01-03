@@ -25,7 +25,7 @@ func add_item(item : Item) -> bool:
 				i.quantity = i.max_quantity
 				item.quantity -= difference
 				if item.quantity > 0:
-					add_item(item)
+					return add_item(item)
 				else:
 					return true
 	

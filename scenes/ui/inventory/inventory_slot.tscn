@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ui/inventory_slot.gd" id="1_mk3br"]
 [ext_resource type="Texture2D" uid="uid://gn7aaou6wp2x" path="res://assets/ui/inventory/item_slot.png" id="2_tia3h"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_5ikin"]
-font_size = 8
+[ext_resource type="Theme" uid="uid://bbj6advrfdvyt" path="res://themes/GUI.tres" id="3_qa6om"]
 
 [node name="InventorySlot" type="Control"]
 custom_minimum_size = Vector2(54, 54)
@@ -17,7 +15,6 @@ script = ExtResource("1_mk3br")
 metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.792157)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -47,7 +44,7 @@ anchor_top = 0.740741
 anchor_right = 0.907407
 anchor_bottom = 0.907407
 mouse_filter = 1
-label_settings = SubResource("LabelSettings_5ikin")
+theme = ExtResource("3_qa6om")
 horizontal_alignment = 2
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true

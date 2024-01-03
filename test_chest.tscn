@@ -32,6 +32,6 @@ shape = SubResource("RectangleShape2D_lgcw4")
 visible = false
 width = 9
 height = 4
-ui_offset = Vector2(0, 216)
+ui_offset = Vector2(0, 210)
 
 [connection signal="gui_input" from="Sprite2D" to="." method="_on_sprite_2d_gui_input"]

@@ -19,7 +19,14 @@ var ghost_item :
 	get:
 		return InventoryManager.ghost_item
 
-@onready var scroll_container = $ScrollContainer
+@onready var scroll_container = $InventoryPanel/Slots
+
+#var _drag_slot_indexes : Array[int]
+
+## TODO:
+# Make it so if the mouse goes over any UI element, UIManager.mouse_over_ui is true.
+# https://imgur.com/gallery/hTnZNDF   # Cool references for inventory UIs
+# https://cdnb.artstation.com/p/assets/images/images/026/340/207/large/jacob-bergholtz-ui-inventory-pixel-perfect-export.jpg?1588522635 
 
 func _ready():
 	if player_inventory:
@@ -32,11 +39,16 @@ func _ready():
 	slot_count = width * height
 	inv.size = slot_count
 	
-	# Properly position the inventory to be centered 
-	scroll_container.size = Vector2i(clampi(width*54, 54, 648), clampi(width*54, 54, 540))
-	scroll_container.set_anchors_preset(Control.PRESET_CENTER, true)
-	scroll_container.position.x -= (scroll_container.size.x/2)
-	scroll_container.position.y -= (scroll_container.size.y/4)
+	 #Properly position the inventory to be centered 
+	#scroll_container.custom_minimum_size = Vector2i(
+	scroll_container.size = Vector2i(
+		clampi((width * 50) + 16, 54, 648), 
+		clampi((height * 50) + 16, 54, 540)
+		)
+	#scroll_container.size = Vector2i(clampi(width*54, 54, 648), clampi(width*54, 54, 540))
+	#scroll_container.set_anchors_preset(Control.PRESET_CENTER, true)
+	#scroll_container.position.x -= (scroll_container.size.x/2)
+	#scroll_container.position.y -= (scroll_container.size.y/4)
 	
 	var v_box = VBoxContainer.new()
 	v_box.add_theme_constant_override("separation", -4)
@@ -57,22 +69,17 @@ func _ready():
 	
 	scroll_container.add_child(v_box)
 
-#func _process(_delta):
-	# Make it so this isn't being processed all the time. 
-	# It should only be getting processed if the inventory is open.
-
 func _input(event):
 	if visible and event is InputEvent:
-		if ghost_item != null and !GameManager.mouse_over_ui and player_inventory:
+		if ghost_item != null and !UIManager.mouse_over_ui and player_inventory:
 			if Input.is_action_just_pressed("left_click"):
 				drop_ghost_item()
 			elif Input.is_action_just_pressed("right_click"):
 				drop_one()
 				
-		# Move this to a button in the inventory UI. 
-		if Input.is_action_just_pressed("down"):
-			inv.sort()
-			update_all_slots()
+			
+		#if Input.is_action_just_released("right_click") and _drag_slot_indexes.size() > 0:
+		#	_drag_slot_indexes.clear()
 
 func update_all_slots():
 	for i in slots.size():
@@ -112,7 +119,7 @@ func _on_slot_clicked(event : String, slot):
 						combine(index)
 					else:
 						swap(index)
-				
+
 		# Logic for right click
 		"right_click":
 			if !Input.is_action_pressed("left_click"):
@@ -120,8 +127,10 @@ func _on_slot_clicked(event : String, slot):
 					split(index)
 				elif slots[index].res == null and ghost_item != null:
 					place_one(index)
+					#_drag_slot_indexes.append(index)
 				elif slots[index].res != null and ghost_item != null and slots[index].res.id == ghost_item.res.id:
 					add_one(index)
+					#_drag_slot_indexes.append(index)
 
 		# Logic for shift + left click
 		"shift_left_click":
@@ -166,13 +175,14 @@ func place_one(index : int):
 		delete_ghost_item()
 		
 func add_one(index : int):
-	slots[index].res.quantity += 1
-	ghost_item.res.quantity -= 1
-	ghost_item.update_quantity()
-	update_slot(index)
+	if slots[index].res.quantity < slots[index].res.max_quantity:
+		slots[index].res.quantity += 1 
+		ghost_item.res.quantity -= 1
+		ghost_item.update_quantity()
+		update_slot(index)
 	
-	if ghost_item.res.quantity == 0:
-		delete_ghost_item()
+		if ghost_item.res.quantity == 0:
+			delete_ghost_item()
 		
 func swap(index : int):
 	var item : Item = inv.items[index].duplicate() as Item
@@ -248,12 +258,14 @@ func open():
 	await update_all_slots()
 	InventoryManager.inventory_opened = true
 	if !player_inventory:
+		if InventoryManager.other_inventory != null:
+			InventoryManager.other_inventory.close()
 		InventoryManager.other_inventory = self
 	show()
 	
 func close():
-	if ghost_item != null:
-		if player_inventory and add_item(ghost_item.res):
+	if ghost_item != null and player_inventory:
+		if add_item(ghost_item.res):
 			delete_ghost_item()
 		else:
 			drop_ghost_item()
@@ -270,3 +282,14 @@ func add_ghost_item():
 func delete_ghost_item():
 	ghost_item.queue_free()
 	ghost_item = null
+
+func _on_sort_button_pressed():
+	inv.sort()
+	update_all_slots()
+
+
+func _on_sort_button_mouse_entered():
+	UIManager.mouse_over_ui = true
+
+func _on_sort_button_mouse_exited():
+	UIManager.mouse_over_ui = false
