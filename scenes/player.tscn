@@ -1,7 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://ciatbfx13u6rt"]
+[gd_scene load_steps=11 format=3 uid="uid://ciatbfx13u6rt"]
 
-[ext_resource type="Script" path="res://scripts/Player.gd" id="1_vnug1"]
+[ext_resource type="Script" path="res://scripts/player/Player.gd" id="1_223uo"]
+[ext_resource type="Script" path="res://scripts/player/PlayerInfo.gd" id="2_d4p6i"]
 [ext_resource type="PackedScene" uid="uid://d23xll87ubhgf" path="res://scenes/ui/inventory/inventory_ui.tscn" id="2_mx2mj"]
+[ext_resource type="Script" path="res://scripts/inventory/inventory_base.gd" id="3_fhehf"]
+
+[sub_resource type="Resource" id="Resource_atouc"]
+script = ExtResource("3_fhehf")
+size = 36
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2oxm"]
 size = Vector2(27, 39)
@@ -22,13 +28,14 @@ size = Vector2(27, 40)
 z_index = 1
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("1_vnug1")
-sprint_speed = 400.0
+script = ExtResource("1_223uo")
+
+[node name="PlayerData" type="Node" parent="."]
+script = ExtResource("2_d4p6i")
+inventory = SubResource("Resource_atouc")
 
 [node name="InventoryUI" parent="." instance=ExtResource("2_mx2mj")]
 visible = false
-width = 9
-height = 4
 player_inventory = true
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]

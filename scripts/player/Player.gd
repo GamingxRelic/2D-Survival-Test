@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-# Movement Speed
-@export var speed := 200.0
-@export var sprint_speed := 350.0
+@onready var data : PlayerData = $PlayerData
+
+# Movement
 var sprinting := false
 
 enum facing {
@@ -10,23 +10,19 @@ enum facing {
 	RIGHT = 1
 }
 
-# Attack 
-var attack_damage := 1.0
-@export var reach := 128.0
-
 # More predictable jumps
-var jump_height : float = 100
-var jump_time_to_peak : float = 0.5
-var jump_time_to_descent : float = 0.4
-var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0 
-var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
-var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+const jump_height : float = 100
+const jump_time_to_peak : float = 0.5
+const jump_time_to_descent : float = 0.4
+const jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0 
+const jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+const fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
 # For variable jump height
-@export var cut_height : float = 0.75
+const cut_height : float = 0.75
 
 # Max y velocity
-@export var max_fall_velocity : float = 550.0
+const max_fall_velocity : float = 550.0
 
 # Jumping variables
 var can_jump := false
@@ -42,8 +38,8 @@ var is_jumping := false
 
 # Stair Check variables
 @onready var sc_raycasts : Array = $Raycasts/StairCheck.get_children()
-@export var sc_x_push_amount := 2.0
-@export var sc_y_push_amount := 8.0
+const sc_x_push_amount := 2.0
+const sc_y_push_amount := 8.0
 
 # Inventory
 @onready var inv := $InventoryUI
@@ -52,6 +48,8 @@ func _ready() -> void:
 	InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
 
 func _physics_process(delta) -> void:
+	#print(Engine.get_frames_per_second())
+	
 	GameManager.player_pos = global_position
 
 	# Handle Jump
@@ -83,13 +81,13 @@ func horizontal_movement() -> void:
 	
 	if direction:
 		if sprinting:
-			velocity.x = direction * sprint_speed
+			velocity.x = direction * data.sprint_speed
 			#anim_tree.set("parameters/running_timescale/scale", 1.5)
 		else:
-			velocity.x = direction * speed
+			velocity.x = direction * data.speed
 			#anim_tree.set("parameters/running_timescale/scale", 1)
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.x = move_toward(velocity.x, 0, data.speed)
 
 func handle_jump(delta) -> void:
 	if is_on_floor():
@@ -177,7 +175,7 @@ func _input(event):
 		#if Input.is_action_just_pressed("left_click"):
 		if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui:
 			# Make this a use_item function
-			if global_position.distance_to(get_global_mouse_position()) <= reach:
+			if global_position.distance_to(get_global_mouse_position()) <= data.reach:
 				var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
 				GameManager.break_block(get_global_mouse_position())
 				mouse_col.global_position = get_global_mouse_position()
@@ -188,7 +186,7 @@ func _input(event):
 		#elif Input.is_action_just_pressed("right_click"):
 		if Input.is_action_pressed("right_click") and !UIManager.mouse_over_ui:
 			# Do something with right click. 
-			if global_position.distance_to(get_global_mouse_position()) <= reach:
+			if global_position.distance_to(get_global_mouse_position()) <= data.reach:
 				GameManager.place_block(get_global_mouse_position(), TileList.tile["STONE"])
 				
 		#if Input.is_action_just_pressed("middle_click") and !UIManager.mouse_over_ui:
@@ -231,7 +229,7 @@ func _on_pickup_range_body_entered(body) -> void:
 		
 func _on_damage_box_body_entered(body):
 	if body.is_in_group("resource"):
-		body.damage(attack_damage)
+		body.damage(data.attack_damage)
 
 
 func _on_item_pull_range_body_entered(body):

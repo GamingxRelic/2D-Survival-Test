@@ -10,8 +10,10 @@ class_name InventoryUI
 
 var slot_count : int
 
-var inv : InventoryBase = InventoryBase.new()
+var inv : InventoryBase
 var slots : Array
+
+var hotbar = null
 
 var ghost_item :
 	set(value):
@@ -29,15 +31,23 @@ var ghost_item :
 # https://cdnb.artstation.com/p/assets/images/images/026/340/207/large/jacob-bergholtz-ui-inventory-pixel-perfect-export.jpg?1588522635 
 
 func _ready():
+	slot_count = width * height
+	
 	if player_inventory:
 		InventoryManager.player_inventory = self
-	
+		inv = get_parent().find_child("PlayerData").inventory as InventoryBase
+		get_parent().find_child("PlayerData").hotbar_size = width #as Array[Item]
+		
+		
+	else:
+		inv = InventoryBase.new()
+		inv.size = slot_count
+		
 	offset = ui_offset
 	
 	InventoryManager.close_inventory.connect(close)
 	
-	slot_count = width * height
-	inv.size = slot_count
+	
 	
 	 #Properly position the inventory to be centered 
 	#scroll_container.custom_minimum_size = Vector2i(
@@ -49,7 +59,7 @@ func _ready():
 	#scroll_container.set_anchors_preset(Control.PRESET_CENTER, true)
 	#scroll_container.position.x -= (scroll_container.size.x/2)
 	#scroll_container.position.y -= (scroll_container.size.y/4)
-	
+
 	var v_box = VBoxContainer.new()
 	v_box.add_theme_constant_override("separation", -4)
 	#h_box.alignment = h_box.ALIGNMENT_CENTER 
@@ -57,7 +67,7 @@ func _ready():
 	for y in height:
 		var h_box = HBoxContainer.new()
 		h_box.add_theme_constant_override("separation", -4)
-		
+
 		for x in width:
 			var item_slot = preload("res://scenes/ui/inventory/inventory_slot.tscn").instantiate()
 			h_box.add_child(item_slot)
@@ -84,9 +94,18 @@ func _input(event):
 func update_all_slots():
 	for i in slots.size():
 		slots[i].set_info(inv.items[i])
-		
+
+	if player_inventory:
+		for i in width:
+			get_parent().find_child("PlayerData").hotbar[i] = inv.items[i]
+			UIManager.update_hotbar.emit()
+
 func update_slot(index : int):
 	slots[index].set_info(inv.items[index])
+	
+	if player_inventory and index < width:
+		get_parent().find_child("PlayerData").hotbar[index] = inv.items[index]
+		UIManager.update_hotbar_slot.emit(index)
 
 func set_slot(index : int, item : Item):
 	inv.items[index] = item

@@ -1,8 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://yc5aoowlcayc"]
+[gd_scene load_steps=4 format=3 uid="uid://yc5aoowlcayc"]
 
 [ext_resource type="Script" path="res://scripts/ui/GUI.gd" id="1_dv7ob"]
+[ext_resource type="Theme" uid="uid://bbj6advrfdvyt" path="res://themes/GUI.tres" id="2_bdlm4"]
+[ext_resource type="Script" path="res://scripts/ui/HotbarContainer.gd" id="2_uipks"]
 
 [node name="GUI" type="CanvasLayer"]
 script = ExtResource("1_dv7ob")
 
+[node name="HotbarPanelContainer" type="PanelContainer" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 56.0
+theme = ExtResource("2_bdlm4")
+
+[node name="Hotbar" type="HBoxContainer" parent="HotbarPanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = -4
+script = ExtResource("2_uipks")
+
 [node name="GhostItem" type="Node2D" parent="."]
+top_level = true

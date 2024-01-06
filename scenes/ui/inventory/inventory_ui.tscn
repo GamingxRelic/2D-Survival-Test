@@ -5,8 +5,8 @@
 
 [node name="InventoryUI" type="CanvasLayer"]
 script = ExtResource("1_g3v6i")
-width = 5
-height = 5
+width = 9
+height = 4
 
 [node name="InventoryPanel" type="Panel" parent="."]
 anchors_preset = 8
@@ -39,8 +39,11 @@ offset_left = 466.0
 offset_top = 192.0
 offset_right = 538.0
 offset_bottom = 216.0
+tooltip_text = "Sort inventory"
+focus_mode = 0
 text = "Sort
 "
+language = "en"
 
 [connection signal="mouse_entered" from="InventoryPanel/SortButton" to="." method="_on_sort_button_mouse_entered"]
 [connection signal="mouse_exited" from="InventoryPanel/SortButton" to="." method="_on_sort_button_mouse_exited"]
