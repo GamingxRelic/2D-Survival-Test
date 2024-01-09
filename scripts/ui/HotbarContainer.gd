@@ -17,9 +17,44 @@ var selected_slot : int = 0:
 func _ready():
 	UIManager.update_hotbar.connect(_update_hotbar)
 	UIManager.update_hotbar_slot.connect(_update_hotbar_slot)
-	await UIManager.hotbar_items != null
+	#await UIManager.hotbar_items != null
 	create_hotbar()
 	
+func _input(event):
+	if event is InputEvent and !InventoryManager.inventory_opened:
+		if Input.is_action_pressed("left_click"):
+			use_selected_item()
+		
+		# For navigating the hotbar
+		if Input.is_action_pressed("scroll_up"):
+			select_next()
+		if Input.is_action_pressed("scroll_down"):
+			select_previous()
+			
+		# For 1-9 hotbar slot inputs
+		if Input.is_action_pressed("hotbar_1"):
+			selected_slot = 0
+		if Input.is_action_pressed("hotbar_2"):
+			selected_slot = 1
+		if Input.is_action_pressed("hotbar_3"):
+			selected_slot = 2
+		if Input.is_action_pressed("hotbar_4"):
+			selected_slot = 3
+		if Input.is_action_pressed("hotbar_5"):
+			selected_slot = 4
+		if Input.is_action_pressed("hotbar_6"):
+			selected_slot = 5
+		if Input.is_action_pressed("hotbar_7"):
+			selected_slot = 6
+		if Input.is_action_pressed("hotbar_8"):
+			selected_slot = 7
+		if Input.is_action_pressed("hotbar_9"):
+			selected_slot = 8
+
+func use_selected_item():
+	if slots[selected_slot].res != null:
+		slots[selected_slot].res.use()
+		_update_hotbar_slot(selected_slot)
 
 func create_hotbar():
 	for i in hotbar_items.size():
@@ -38,7 +73,18 @@ func _update_hotbar():
 func _update_hotbar_slot(index : int):
 	slots[index].set_info(hotbar_items[index])
 
-func _on_action_event(event : String, slot):
+func _on_action_event(_event : String, slot):
 	var index = slots.find(slot)
 	selected_slot = index
-	#print(event + " at slot " +str(index))
+
+func select_next():
+	if selected_slot == hotbar_items.size()-1:
+		selected_slot = 0
+	else:
+		selected_slot += 1
+	
+func select_previous():
+	if selected_slot == 0:
+		selected_slot = hotbar_items.size()-1
+	else:
+		selected_slot -= 1

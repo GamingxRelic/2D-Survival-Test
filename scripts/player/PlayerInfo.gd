@@ -1,7 +1,12 @@
 extends Node
 class_name PlayerData
 
-@export var health : float = 100.0
+@export var health : float = 100.0 :
+	set(value):
+		health = clampf(value, 0, max_health)
+	get:
+		return health
+@export var max_health : float = 100.0
 
 @export var speed : float = 200.0
 @export var sprint_speed : float = 350.0
@@ -20,4 +25,5 @@ class_name PlayerData
 
 func _ready():
 	UIManager.hotbar_items = hotbar
+	GameManager.player_data = self as PlayerData
 	

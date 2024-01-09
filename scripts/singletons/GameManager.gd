@@ -13,6 +13,7 @@ var tilemap : TileMap
 
 var player_pos : Vector2
 var player_facing : int = 1
+var player_data : PlayerData 
 var mouse_over_ui := false
 
 var luck : float = 0.0

@@ -50,11 +50,11 @@ func _ready():
 	
 	
 	 #Properly position the inventory to be centered 
-	#scroll_container.custom_minimum_size = Vector2i(
-	scroll_container.size = Vector2i(
+	#scroll_container.custom_minimum_size = Vector2i( # for when I did not use container control nodes
+	scroll_container.set_deferred("size", Vector2i(
 		clampi((width * 50) + 16, 54, 648), 
 		clampi((height * 50) + 16, 54, 540)
-		)
+		))
 	#scroll_container.size = Vector2i(clampi(width*54, 54, 648), clampi(width*54, 54, 540))
 	#scroll_container.set_anchors_preset(Control.PRESET_CENTER, true)
 	#scroll_container.position.x -= (scroll_container.size.x/2)
@@ -74,6 +74,7 @@ func _ready():
 			slots.append(item_slot)
 			item_slot.action_event.connect(_on_slot_clicked)
 			item_slot.mouse_entered_slot.connect(_on_mouse_entered_slot)
+			item_slot.item_empty.connect(_on_item_empty)
 		
 		v_box.add_child(h_box)
 	
@@ -90,6 +91,11 @@ func _input(event):
 			
 		#if Input.is_action_just_released("right_click") and _drag_slot_indexes.size() > 0:
 		#	_drag_slot_indexes.clear()
+
+func _on_item_empty(slot):
+	var index = slots.find(slot)
+	inv.items[index] = null
+	update_slot(index)
 
 func update_all_slots():
 	for i in slots.size():

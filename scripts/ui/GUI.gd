@@ -11,4 +11,3 @@ func add_ghost_item(value):
 func delete_ghost_item():
 	ghost_item.get_child(0).queue_free()
 
-

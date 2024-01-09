@@ -8,6 +8,7 @@ extends Control
 signal action_event 
 signal mouse_entered_slot
 signal mouse_exited_slot
+signal item_empty
 
 func set_info(item : Item):
 	
@@ -18,6 +19,9 @@ func set_info(item : Item):
 		return
 		
 	res = item
+	if !res.empty.is_connected(_on_item_empty):
+	#res.empty.disconnect(_on_item_empty)
+		res.empty.connect(_on_item_empty)
 	quantity.text = str(res.quantity) if res.max_quantity > 1 else ""
 	item_rect.texture = res.texture
 
@@ -25,6 +29,8 @@ func set_info(item : Item):
 	#quantity.text = str(res.quantity)
 	##item_rect.texture = res.texture
 
+func _on_item_empty():
+	item_empty.emit(self)
 
 func _on_gui_input(event):
 	if event is InputEvent:
