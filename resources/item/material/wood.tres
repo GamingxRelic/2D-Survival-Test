@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://ctfc3dplonua8"]
+
+[ext_resource type="Script" path="res://resources/item/base_item.gd" id="1_typxe"]
+[ext_resource type="Texture2D" uid="uid://btegj45xlkmhi" path="res://assets/sprites/items/materials/wood.png" id="2_jj01o"]
+
+[resource]
+script = ExtResource("1_typxe")
+name = "Wood"
+id = "wood"
+description = "A piece of sturdy wood"
+type_material = true
+type_equipable = false
+type_consumable = false
+type_placeable = false
+type_throwable = false
+rarity = "COMMON"
+texture = ExtResource("2_jj01o")
+quantity = 1
+max_quantity = 99

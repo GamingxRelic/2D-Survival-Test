@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/ResourceNode.gd" id="1_enght"]
 [ext_resource type="PackedScene" uid="uid://c8px0b0cbfsvl" path="res://scenes/components/health_component.tscn" id="2_tiyf4"]
 [ext_resource type="PackedScene" uid="uid://gftbv2vinf0e" path="res://scenes/components/drop_handler.tscn" id="3_1yenc"]
-[ext_resource type="Resource" uid="uid://b8dn7s2nopbic" path="res://resources/item/stone.tres" id="4_rj6mg"]
+[ext_resource type="Resource" uid="uid://b8dn7s2nopbic" path="res://resources/item/block_item/stone.tres" id="4_ovrvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ty2hb"]
 size = Vector2(48, 32)
@@ -39,7 +39,7 @@ bus = &"SFX"
 
 [node name="DropHandler" parent="." instance=ExtResource("3_1yenc")]
 drops = {
-ExtResource("4_rj6mg"): 100
+ExtResource("4_ovrvf"): 100
 }
 min_drop_count = 2
 max_drop_count = 4

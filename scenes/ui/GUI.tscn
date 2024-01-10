@@ -21,3 +21,5 @@ script = ExtResource("2_uipks")
 
 [node name="GhostItem" type="Node2D" parent="."]
 top_level = true
+
+[node name="Tooltip" type="Node2D" parent="."]

@@ -80,8 +80,9 @@ func _ready():
 	
 	scroll_container.add_child(v_box)
 
-func _input(event):
-	if visible and event is InputEvent:
+#func _input(event):
+func _process(_delta):
+	if visible:
 		if ghost_item != null and !UIManager.mouse_over_ui and player_inventory:
 			if Input.is_action_just_pressed("left_click"):
 				drop_ghost_item()
@@ -108,7 +109,6 @@ func update_all_slots():
 
 func update_slot(index : int):
 	slots[index].set_info(inv.items[index])
-	
 	if player_inventory and index < width:
 		get_parent().find_child("PlayerData").hotbar[index] = inv.items[index]
 		UIManager.update_hotbar_slot.emit(index)
@@ -125,12 +125,7 @@ func _on_slot_clicked(event : String, slot):
 		"left_click":
 			if !Input.is_action_pressed("right_click"):
 				if slots[index].res != null and ghost_item == null:
-					# Pickup item and make a ghost item
-					ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
-					add_ghost_item()
-					ghost_item.set_info(inv.items[index])
-					inv.items[index] = null
-					update_slot(index)
+					pickup_item(index)
 				elif slots[index].res == null and ghost_item != null:
 					# Place ghost item in empty slot
 					inv.items[index] = ghost_item.res.duplicate()
@@ -185,16 +180,23 @@ func quick_transfer(index : int) -> void:
 			InventoryManager.player_inventory.update_all_slots()
 			update_slot(index)
 		
+func pickup_item(index : int):
+	# Pickup item and make a ghost item
+	ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
+	add_ghost_item()
+	ghost_item.set_info(inv.items[index].duplicate())
+	inv.items[index] = null
+	update_slot(index)
+		
 func place_one(index : int):
 	var slot_item = ghost_item.res.duplicate()
 	slot_item.quantity = 1
-	
 	inv.items[index] = slot_item
 	update_slot(index)
 	
 	ghost_item.res.quantity -= 1
 	ghost_item.update_quantity()
-	update_slot(index)
+	#update_slot(index)
 	
 	if ghost_item.res.quantity == 0:
 		delete_ghost_item()
@@ -230,16 +232,17 @@ func combine(index : int):
 	update_slot(index)
 	
 func split(index : int):
-	var half
 	if inv.items[index].quantity == 1:
-		half = 1.0
-	else:
-		half = ceili(inv.items[index].quantity/2.0)
+		pickup_item(index)
+		return
 	
-	inv.items[index].quantity -= half
+	var half
+	half = ceili(inv.items[index].quantity/2.0)
 	
 	var ghost_res : Item = inv.items[index].duplicate() as Item
 	ghost_res.quantity = half
+	
+	inv.items[index].quantity -= half
 	
 	ghost_item = preload("res://scenes/ui/inventory/ghost_item.tscn").instantiate()
 	add_ghost_item()

@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=8 format=3 uid="uid://c7n2rkes5kbds"]
 
 [ext_resource type="Texture2D" uid="uid://clqmi5vws5ext" path="res://assets/tiles/tile_atlas.png" id="1_its3r"]
-[ext_resource type="Resource" uid="uid://y6dsw12hi4d3" path="res://resources/item/dirt.tres" id="1_vfoyd"]
+[ext_resource type="Resource" uid="uid://y6dsw12hi4d3" path="res://resources/item/block_item/dirt.tres" id="1_vfoyd"]
 [ext_resource type="PackedScene" uid="uid://bwlb28ohybk33" path="res://scenes/resource_nodes/tree.tscn" id="2_ikb14"]
-[ext_resource type="Resource" uid="uid://b8dn7s2nopbic" path="res://resources/item/stone.tres" id="2_n4p70"]
+[ext_resource type="Resource" uid="uid://b8dn7s2nopbic" path="res://resources/item/block_item/stone.tres" id="2_n4p70"]
 [ext_resource type="PackedScene" uid="uid://fbg8oafl30nt" path="res://scenes/resource_nodes/rock.tscn" id="3_o8huv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ib0tp"]

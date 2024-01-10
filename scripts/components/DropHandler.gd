@@ -30,6 +30,6 @@ func drop_items():
 				
 				var radius_x = randf_range(-250, 250)
 				var radius_y = randf_range(-500, 0)
-				item.apply_central_impulse(Vector2(radius_x, radius_y))
+				item.central_impulse_amount = Vector2(radius_x, radius_y)
 				
 				GameManager.entities.call_deferred("add_child", item)

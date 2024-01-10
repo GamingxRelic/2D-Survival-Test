@@ -1,6 +1,15 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bbj6advrfdvyt"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bbj6advrfdvyt"]
 
+[ext_resource type="Texture2D" uid="uid://gn7aaou6wp2x" path="res://assets/ui/inventory/item_slot.png" id="1_6gyes"]
 [ext_resource type="Texture2D" uid="uid://c0msrv7b0865p" path="res://assets/ui/panel_backdrop.png" id="1_hwhuf"]
+[ext_resource type="FontFile" uid="uid://c5v5afoy5wd7w" path="res://assets/fonts/equipment-pro-v1.1/EquipmentPro.ttf" id="2_rlbvq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aip2a"]
+texture = ExtResource("1_6gyes")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l1err"]
 texture = ExtResource("1_hwhuf")
@@ -9,7 +18,7 @@ texture_margin_top = 6.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jnr45"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_af61g"]
 texture = ExtResource("1_hwhuf")
 texture_margin_left = 6.0
 texture_margin_top = 6.0
@@ -26,9 +35,16 @@ texture_margin_bottom = 6.0
 draw_center = false
 
 [resource]
-Label/colors/font_shadow_color = Color(0, 0, 0, 1)
-Label/constants/shadow_outline_size = 4
-Label/font_sizes/font_size = 8
+ItemSlotPanel/base_type = &"Panel"
+ItemSlotPanel/styles/panel = SubResource("StyleBoxTexture_aip2a")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0.313726, 0.313726, 0.313726, 1)
+Label/constants/line_spacing = 4
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 0
+Label/fonts/font = ExtResource("2_rlbvq")
 Panel/styles/panel = SubResource("StyleBoxTexture_l1err")
-PanelContainer/styles/panel = SubResource("StyleBoxTexture_jnr45")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_af61g")
 ScrollContainer/styles/panel = SubResource("StyleBoxTexture_731vq")

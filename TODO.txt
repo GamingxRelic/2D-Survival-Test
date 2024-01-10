@@ -19,15 +19,24 @@ TODO:
 				on the world_tile.tscn loop through the atlas and change the customdata variable
 				to by the Item resource's quantity * stack_size_multiplier
 		
-		b. Add label so when you hover over an item slot, it gives a bit of information such as name,
-			equipment stats, etc. of the item. (If the item slot's res isn't null, ofcourse). 
+		b. Change how block breaking / using items that interact with world works with left and right click. 
+			i. Pickaxe will break blocks
+			ii. Axe will break trees
+			iii. Cannot break blocks directly under a tree
+			iv. Etc. 
 	
-	
+	2. Add test tools for pickaxe and axe.
+		a. Pickaxe is for blocks
+		b. Axe is for trees
+		c. Add hardness to all blocks and resource nodes and a mining speed and level to tools. 
 		
 	3. Add storage / chests / stored inventories
 		a. Inventories should be saved when you open and close the chest.
 		b. You shouldn't be able to break the chest if there are items in it.
-		   ^ Just so you dont have a ton of items flying around when it breaks.
+		   ^ Just so you dont have a ton of items sflying around when it breaks.
+		c. Add unique inventory UIs for the different inventories. 
+			i. This should expand upon the InventoryUI scene / inheret from it. 
+			ii. Just alter the layout of things.
  
 		
 	4. Lighting system similar to Terraria lighting. Try using Image.create_from_data 

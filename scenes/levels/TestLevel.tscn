@@ -1,19 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bf6m6ox5vhqu5"]
+[gd_scene load_steps=6 format=3 uid="uid://bf6m6ox5vhqu5"]
 
 [ext_resource type="PackedScene" uid="uid://ciatbfx13u6rt" path="res://scenes/player.tscn" id="1_ljk2n"]
 [ext_resource type="Script" path="res://scripts/levels/TestLevel.gd" id="1_v46q4"]
 [ext_resource type="PackedScene" uid="uid://cp25y5x7uo0pp" path="res://scenes/levels/world_tile.tscn" id="2_nggfl"]
 [ext_resource type="PackedScene" uid="uid://yc5aoowlcayc" path="res://scenes/ui/GUI.tscn" id="4_qb17p"]
 [ext_resource type="PackedScene" uid="uid://cnw0frco7ombw" path="res://test_chest.tscn" id="5_ulbu7"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7tb7"]
-size = Vector2(1559, 46)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdwdg"]
-size = Vector2(565, 5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uag84"]
-size = Vector2(387, 5)
 
 [node name="TestLevel" type="Node2D"]
 script = ExtResource("1_v46q4")
@@ -25,50 +16,6 @@ script = ExtResource("1_v46q4")
 [node name="ItemEntities" type="Node2D" parent="Entities"]
 
 [node name="Ground" type="Node2D" parent="."]
-
-[node name="OLD" type="Node2D" parent="Ground"]
-process_mode = 4
-visible = false
-position = Vector2(-91562, 0)
-
-[node name="GroundFloor" type="StaticBody2D" parent="Ground/OLD"]
-
-[node name="ColorRect" type="ColorRect" parent="Ground/OLD/GroundFloor"]
-offset_right = 1549.0
-offset_bottom = 47.0
-color = Color(0, 0.419608, 0.611765, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/GroundFloor"]
-position = Vector2(779, 23)
-shape = SubResource("RectangleShape2D_w7tb7")
-
-[node name="SecondLayer" type="StaticBody2D" parent="Ground/OLD"]
-z_index = -20
-
-[node name="ColorRect" type="ColorRect" parent="Ground/OLD/SecondLayer"]
-offset_left = 485.0
-offset_top = -64.0
-offset_right = 1050.0
-color = Color(0, 0.27451, 0.407843, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/SecondLayer"]
-position = Vector2(767.5, -61)
-shape = SubResource("RectangleShape2D_qdwdg")
-one_way_collision = true
-
-[node name="ThirdLayer" type="StaticBody2D" parent="Ground/OLD"]
-z_index = -30
-
-[node name="ColorRect" type="ColorRect" parent="Ground/OLD/ThirdLayer"]
-offset_left = 282.0
-offset_top = -107.0
-offset_right = 669.0
-color = Color(0, 0.109804, 0.176471, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/OLD/ThirdLayer"]
-position = Vector2(475.5, -104.5)
-shape = SubResource("RectangleShape2D_uag84")
-one_way_collision = true
 
 [node name="WorldTile" parent="Ground" instance=ExtResource("2_nggfl")]
 world_x = 256

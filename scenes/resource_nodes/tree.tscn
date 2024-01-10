@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scripts/ResourceNode.gd" id="1_ysicl"]
 [ext_resource type="PackedScene" uid="uid://c8px0b0cbfsvl" path="res://scenes/components/health_component.tscn" id="2_m8jxg"]
 [ext_resource type="PackedScene" uid="uid://gftbv2vinf0e" path="res://scenes/components/drop_handler.tscn" id="3_87a1j"]
-[ext_resource type="Resource" uid="uid://ctfc3dplonua8" path="res://resources/item/wood.tres" id="4_2qhfw"]
-[ext_resource type="Resource" uid="uid://b4s0tlvevuh6i" path="res://resources/item/apple.tres" id="5_qk3kw"]
+[ext_resource type="Resource" uid="uid://ctfc3dplonua8" path="res://resources/item/material/wood.tres" id="4_tewlq"]
+[ext_resource type="Resource" uid="uid://b4s0tlvevuh6i" path="res://resources/item/consumable/apple.tres" id="5_t683m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2ero"]
 size = Vector2(16, 128)
@@ -51,8 +51,8 @@ color = Color(0.157648, 0.372185, 0.185691, 1)
 
 [node name="DropHandler" parent="." instance=ExtResource("3_87a1j")]
 drops = {
-ExtResource("4_2qhfw"): 100,
-ExtResource("5_qk3kw"): 10
+ExtResource("4_tewlq"): 100,
+ExtResource("5_t683m"): 10
 }
 min_drop_count = 3
 max_drop_count = 5

@@ -7,9 +7,13 @@
 script = ExtResource("1_hou2g")
 name = "Dirt"
 id = "dirt"
-type = "MATERIAL"
-consumable_type = ""
-color = Color(0.478431, 0.282353, 0.254902, 1)
+description = "A dirty clump of dirt"
+type_material = true
+type_equipable = false
+type_consumable = false
+type_placeable = true
+type_throwable = false
+rarity = "COMMON"
 texture = ExtResource("2_ur6jm")
 quantity = 1
 max_quantity = 999

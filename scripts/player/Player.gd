@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var data : PlayerData = $PlayerData
 
 # Movement
-var sprinting := false
+var sprinting : bool = false
 
 enum facing {
 	LEFT = -1,
@@ -44,8 +44,73 @@ const sc_y_push_amount := 8.0
 # Inventory
 @onready var inv := $InventoryUI
 
+# Mouse hit collider
+#@onready var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
+
 func _ready() -> void:
 	InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
+
+func _process(_delta):
+	if is_on_floor():
+		if Input.is_action_just_pressed("down"):
+			global_position.y += 1
+			
+	if Input.is_action_just_pressed("jump"):
+		jump_was_pressed = true
+		remember_jump_time()
+		if can_jump:
+			jump()
+
+	if Input.is_action_just_released("jump") and velocity.y < 0 and is_jumping:
+		velocity.y *= cut_height
+	
+	
+	# Horizontal movement
+	
+	if Input.is_action_pressed("sprint") and is_on_floor():
+		sprinting = true
+	if !Input.is_action_pressed("sprint") and is_on_floor():
+		sprinting = false
+	
+	# Other
+	
+	#if Input.is_action_just_pressed("left_click"):
+	if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui:
+		
+		UIManager.use_current_hotbar_item.emit()
+		
+		# Make this a use_item function
+		#if global_position.distance_to(get_global_mouse_position()) <= data.reach:
+			#GameManager.break_block(get_global_mouse_position())
+			#mouse_col.global_position = get_global_mouse_position()
+			#mouse_col.set_deferred("disabled", false)
+			#await get_tree().create_timer(0.1).timeout
+			#mouse_col.set_deferred("disabled", true)
+	
+	if Input.is_action_pressed("right_click") and !UIManager.mouse_over_ui:
+		# Do something with right click. 
+		if global_position.distance_to(get_global_mouse_position()) <= data.reach:
+			GameManager.place_block(get_global_mouse_position(), TileList.tile["STONE"])
+			
+		
+	if Input.is_action_pressed("ui_text_submit"):
+		GameManager.spawn_resources.emit()
+	
+	if Input.is_action_just_pressed("grenade"):
+		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
+		grenade.global_position = global_position
+		var grenade_direction := (get_global_mouse_position() - global_position).normalized()
+		var grenade_speed := 500
+		grenade.apply_central_impulse(grenade_direction * grenade_speed)
+		GameManager.entities.call_deferred("add_child", grenade)
+		
+	if Input.is_action_just_pressed("inventory"):
+		if InventoryManager.inventory_opened:
+			InventoryManager.close_inventory.emit()
+		else:
+			InventoryManager.open_player_inventory.emit()
+			inv.open()
+			#$InventoryUI2.open()
 
 func _physics_process(delta) -> void:
 	#print(Engine.get_frames_per_second())
@@ -145,74 +210,11 @@ func corner_correction():
 
 		if cc_raycasts[2].get_collider() != null and cc_raycasts[3].get_collider() == null:
 			position.x -= cc_push_amount
-
-func _input(event):
-	if event is InputEvent:
-		 # Jumping things
-		if is_on_floor():
-			if Input.is_action_just_pressed("down"):
-				global_position.y += 1
-			
-		if Input.is_action_just_pressed("jump"):
-			jump_was_pressed = true
-			remember_jump_time()
-			if can_jump:
-				jump()
-
-		if Input.is_action_just_released("jump") and velocity.y < 0 and is_jumping:
-			velocity.y *= cut_height
-		
-		
-		# Horizontal movement
-		
-		if Input.is_action_pressed("sprint") and is_on_floor():
-			sprinting = true
-		if !Input.is_action_pressed("sprint") and is_on_floor():
-			sprinting = false
-		
-		# Other
-		
-		#if Input.is_action_just_pressed("left_click"):
-		if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui:
-			# Make this a use_item function
-			if global_position.distance_to(get_global_mouse_position()) <= data.reach:
-				var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
-				GameManager.break_block(get_global_mouse_position())
-				mouse_col.global_position = get_global_mouse_position()
-				mouse_col.set_deferred("disabled", false)
-				await get_tree().create_timer(0.1).timeout
-				mouse_col.set_deferred("disabled", true)
-		
-		#elif Input.is_action_just_pressed("right_click"):
-		if Input.is_action_pressed("right_click") and !UIManager.mouse_over_ui:
-			# Do something with right click. 
-			if global_position.distance_to(get_global_mouse_position()) <= data.reach:
-				GameManager.place_block(get_global_mouse_position(), TileList.tile["STONE"])
-				
-		#if Input.is_action_just_pressed("middle_click") and !UIManager.mouse_over_ui:
-			#var item = preload("res://scenes/item.tscn").instantiate()
-			#item.global_position = get_global_mouse_position()
-			#item.res = load("res://resources/item/apple.tres").duplicate()
-			#GameManager.item_entities.call_deferred("add_child", item)
-			
-		if Input.is_action_pressed("ui_text_submit"):
-			GameManager.spawn_resources.emit()
-		
-		if Input.is_action_just_pressed("grenade"):
-			var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
-			grenade.global_position = global_position
-			var grenade_direction := (get_global_mouse_position() - global_position).normalized()
-			var grenade_speed := 500
-			grenade.apply_central_impulse(grenade_direction * grenade_speed)
-			GameManager.entities.call_deferred("add_child", grenade)
-			
-		if Input.is_action_just_pressed("inventory"):
-			if InventoryManager.inventory_opened:
-				InventoryManager.close_inventory.emit()
-			else:
-				InventoryManager.open_player_inventory.emit()
-				inv.open()
-				#$InventoryUI2.open()
+#
+#func _input(event):
+	#if event is InputEvent:
+		 ## Jumping things
+		#
 
 func pickup(item : Item) -> bool:
 	if inv.add_item(item):

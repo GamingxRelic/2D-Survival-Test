@@ -9,7 +9,9 @@ var entities
 var resource_nodes
 var item_entities
 var max_resource_nodes := 100
+
 var tilemap : TileMap 
+var world_spawn : Vector2
 
 var player_pos : Vector2
 var player_facing : int = 1
@@ -17,6 +19,15 @@ var player_data : PlayerData
 var mouse_over_ui := false
 
 var luck : float = 0.0
+
+var colors : Dictionary = {
+	"BROKEN" : Color("939393"),
+	"COMMON" : Color("f7f7f7"),
+	"UNCOMMON" : Color("3bcc3f"),
+	"RARE" : Color("0c27d3"),
+	"MYTHICAL" : Color("5419ea"),
+	"LEGENDARY" : Color("f0f736")
+}
 
 signal spawn_resources
 

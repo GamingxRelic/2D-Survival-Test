@@ -12,6 +12,7 @@ func _ready() -> void:
 	GameManager.resource_nodes = $Entities/ResourceNodes
 	GameManager.item_entities = $Entities/ItemEntities
 	GameManager.spawn_resources.emit()
+	$Player.global_position = GameManager.world_spawn
 	zoom = cam.zoom.x
 
 func _process(delta):

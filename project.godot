@@ -31,6 +31,8 @@ UIManager="*res://scripts/singletons/UIManager.gd"
 
 [display]
 
+window/size/viewport_width=960
+window/size/viewport_height=540
 window/stretch/mode="canvas_items"
 
 [filesystem]
@@ -39,7 +41,7 @@ import/blender/enabled=false
 
 [gui]
 
-theme/custom_font="res://assets/fonts/PressStart2P-Regular.ttf"
+theme/custom_font="res://assets/fonts/equipment-pro-v1.1/EquipmentPro.ttf"
 
 [input]
 

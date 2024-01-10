@@ -7,8 +7,13 @@
 script = ExtResource("1_bhpex")
 name = "Stone"
 id = "stone"
-type = "MATERIAL"
-consumable_type = ""
+description = "It's a rock"
+type_material = true
+type_equipable = false
+type_consumable = false
+type_placeable = true
+type_throwable = false
+rarity = "COMMON"
 texture = ExtResource("2_g815u")
 quantity = 1
 max_quantity = 999

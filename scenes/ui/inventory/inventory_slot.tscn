@@ -39,16 +39,27 @@ metadata/_edit_use_anchors_ = true
 [node name="Quantity" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.0925926
-anchor_top = 0.740741
-anchor_right = 0.907407
-anchor_bottom = 0.907407
+anchor_left = 0.12037
+anchor_top = 0.666667
+anchor_right = 0.916667
+anchor_bottom = 0.962963
+offset_left = -0.5
+offset_top = -0.500008
+offset_right = -0.5
+offset_bottom = -0.500008
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 1
 theme = ExtResource("3_qa6om")
 horizontal_alignment = 2
-vertical_alignment = 1
+vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="TooltipTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="timeout" from="TooltipTimer" to="." method="_on_tooltip_timer_timeout"]

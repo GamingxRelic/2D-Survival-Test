@@ -20,7 +20,7 @@ func _ready() -> void:
 	GameManager.spawn_resources.connect(_on_spawn_resources)
 	
 	randomize()
-	noise.seed = 100 #randi()%1000
+	noise.seed = randi()%1000
 	
 	for x in world_x:
 		var ground = abs(noise.get_noise_2d(x, 20) * 30)
@@ -44,7 +44,8 @@ func _ready() -> void:
 			if noise.get_noise_2d(x,y) > -0.33: 
 				set_cell(0, Vector2i(x,y), 0, tiles["STONE"], 0)
 	
-			
+	find_world_spawn_point()
+	
 func _on_spawn_resources():
 	for x in world_x:
 		var ground = abs(noise.get_noise_2d(x, 20) * 30)
@@ -102,4 +103,17 @@ func check_collision(layer : int, tile_pos : Vector2i, x_range : int, y_range : 
 	
 	return result
 
-
+func find_world_spawn_point():
+	var center_x : int = floori(world_x / 2.0)
+	var tile_pos : Vector2i = Vector2i(center_x, -1)
+	
+	# This needs to check if there is enough room for the player, who is 2x3 blocks in size. 
+	
+	while true:
+		if get_cell_tile_data(0, tile_pos) == null:
+			tile_pos.y += 1
+		else:
+			tile_pos.y -= 1
+			break
+	
+	GameManager.world_spawn = map_to_local(tile_pos)

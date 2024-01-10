@@ -33,3 +33,9 @@ func _on_gui_input(event):
 			action_event.emit("left_click", self)
 		elif Input.is_action_just_pressed("right_click"):
 			action_event.emit("right_click", self)
+
+func _on_mouse_entered():
+	UIManager.mouse_over_ui = true
+
+func _on_mouse_exited():
+	UIManager.mouse_over_ui = false

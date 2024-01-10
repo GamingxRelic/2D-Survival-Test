@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://m3lx4a7st40f"]
+
+[ext_resource type="Theme" uid="uid://bbj6advrfdvyt" path="res://themes/GUI.tres" id="1_in2eb"]
+[ext_resource type="Script" path="res://scripts/ui/Tooltip.gd" id="2_8c2a5"]
+
+[node name="Tooltip" type="PanelContainer"]
+custom_minimum_size = Vector2(30, 30)
+offset_right = 38.0
+offset_bottom = 38.0
+mouse_filter = 2
+theme = ExtResource("1_in2eb")
+script = ExtResource("2_8c2a5")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 2
+theme = ExtResource("1_in2eb")
+theme_type_variation = &"ItemSlotPanel"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TitleContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 84
+
+[node name="Title" type="Label" parent="VBoxContainer/TitleContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Sick tool"
+
+[node name="RarityContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = -24
+theme_override_constants/margin_right = 4
+
+[node name="Rarity" type="Label" parent="VBoxContainer/RarityContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Common"
+
+[node name="DescriptionContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Description" type="Label" parent="VBoxContainer/DescriptionContainer"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Chicken Nuggets"
+
+[node name="TitleRarityContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2

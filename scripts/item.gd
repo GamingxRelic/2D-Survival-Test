@@ -16,14 +16,21 @@ var inside_tile := false
 var stall_pickup_time : float = 1.5
 var stalling_pickup := false
 
+var central_impulse_amount : Vector2
+
 @onready var texture_rect = $TextureRect
 
 func _ready() -> void:
 	texture_rect.texture = res.texture
-	await get_tree().create_timer(0.1).timeout
+	#await get_tree().create_timer(0.1).timeout
+	
 	#set_collision_mask_value(4, true)
 	
 func _physics_process(_delta):
+	if central_impulse_amount != Vector2.ZERO:
+		apply_central_impulse(central_impulse_amount)
+		central_impulse_amount = Vector2.ZERO
+	
 	if following_player:
 		if !stalling_pickup:
 			set_collision_mask_value(1, false)

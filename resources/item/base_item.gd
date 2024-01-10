@@ -3,8 +3,16 @@ class_name Item
 
 @export var name : String
 @export var id : String
-@export_enum("MATERIAL", "EQUIPABLE", "CONSUMABLE", "WEAPON", "BLOCK") var type : String
-#@export_enum("BLOCK", "EDIBLE") var consumable_type : String
+@export_multiline var description : String
+
+@export_group("Types", "tag_")
+@export var tag_material : bool
+@export var tag_equipable : bool
+@export var tag_consumable : bool
+@export var tag_placeable : bool
+@export var tag_throwable : bool
+
+@export_enum("BROKEN", "COMMON", "UNCOMMON", "RARE", "MYTHICAL", "LEGENDARY") var rarity : String = "COMMON"
 @export var texture : Texture
 @export var quantity : int = 1 :
 	set(value):
@@ -17,8 +25,7 @@ class_name Item
 
 signal empty
 
-func use():
-	quantity -= 1
+func use() : pass; # This will be overridden in classes that inherit this.
 
 func combine(add_quantity : int) -> int:
 	if quantity + add_quantity <= max_quantity:

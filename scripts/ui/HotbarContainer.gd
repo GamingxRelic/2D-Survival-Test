@@ -17,13 +17,16 @@ var selected_slot : int = 0:
 func _ready():
 	UIManager.update_hotbar.connect(_update_hotbar)
 	UIManager.update_hotbar_slot.connect(_update_hotbar_slot)
+	UIManager.use_current_hotbar_item.connect(use_selected_item)
+	
 	#await UIManager.hotbar_items != null
 	create_hotbar()
-	
+
+
 func _input(event):
 	if event is InputEvent and !InventoryManager.inventory_opened:
-		if Input.is_action_pressed("left_click"):
-			use_selected_item()
+		#if Input.is_action_pressed("left_click"):
+			#use_selected_item()
 		
 		# For navigating the hotbar
 		if Input.is_action_pressed("scroll_up"):

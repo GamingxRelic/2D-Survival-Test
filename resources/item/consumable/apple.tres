@@ -5,9 +5,16 @@
 
 [resource]
 script = ExtResource("1_kqlg7")
+health_restored = 0
 name = "Apple"
 id = "apple"
-type = "CONSUMABLE"
+description = "Bapple! It's a bapple!"
+type_material = false
+type_equipable = false
+type_consumable = false
+type_placeable = false
+type_throwable = false
+rarity = "UNCOMMON"
 texture = ExtResource("2_8ldwg")
 quantity = 1
 max_quantity = 1
