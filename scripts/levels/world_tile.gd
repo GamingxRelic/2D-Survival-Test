@@ -38,7 +38,10 @@ func _ready() -> void:
 
 		for y in range(15, 40):
 			if noise.get_noise_2d(x,y) > -0.33: 
-				set_cell(0, Vector2i(x,y), 0, tiles["DIRT"], 0)
+				if get_cell_tile_data(0, Vector2i(x, y-1)) == null:
+					set_cell(0, Vector2i(x,y), 0, tiles["GRASS_TOP"], 0)
+				else:
+					set_cell(0, Vector2i(x,y), 0, tiles["DIRT"], 0)
 
 		for y in range(40, world_y):
 			if noise.get_noise_2d(x,y) > -0.33: 

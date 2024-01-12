@@ -11,6 +11,7 @@ class_name Item
 @export var tag_consumable : bool
 @export var tag_placeable : bool
 @export var tag_throwable : bool
+@export var tag_tool : bool
 
 @export_enum("BROKEN", "COMMON", "UNCOMMON", "RARE", "MYTHICAL", "LEGENDARY") var rarity : String = "COMMON"
 @export var texture : Texture

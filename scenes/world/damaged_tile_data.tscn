@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpk7krih432wp"]
+
+[ext_resource type="Script" path="res://scripts/world/DamagedTileData.gd" id="1_pmmn0"]
+
+[node name="DamagedTileData" type="Node"]
+script = ExtResource("1_pmmn0")
+
+[node name="HealTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="HealTimer" to="." method="_on_heal_timer_timeout"]

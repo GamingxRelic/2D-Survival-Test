@@ -1,4 +1,5 @@
 extends PanelContainer
+class_name Tooltip
 
 var offset : Vector2 = Vector2(18,0)
 

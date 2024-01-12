@@ -59,7 +59,7 @@ func _integrate_forces(state):
 	
 	if inside_tile:
 		state.linear_velocity.x = 0.0
-		state.linear_velocity.y = -250
+		state.linear_velocity.y = -150
 
 func follow_player():
 	following_player = true

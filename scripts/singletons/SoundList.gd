@@ -16,3 +16,11 @@ var resource_hit : Dictionary = {
 var resource_break : Dictionary = {
 	1 : "res://assets/audio/damage/break.wav"
 }
+
+var tile_damage : Dictionary = {
+	"stone_1" : "res://assets/audio/damage/damage1.wav" # TEMP
+}
+
+var tile_break : Dictionary = {
+	"stone" : "res://assets/audio/damage/break.wav" # TEMP
+}

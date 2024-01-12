@@ -29,9 +29,9 @@ func _input(event):
 			#use_selected_item()
 		
 		# For navigating the hotbar
-		if Input.is_action_pressed("scroll_up"):
-			select_next()
 		if Input.is_action_pressed("scroll_down"):
+			select_next()
+		if Input.is_action_pressed("scroll_up"):
 			select_previous()
 			
 		# For 1-9 hotbar slot inputs

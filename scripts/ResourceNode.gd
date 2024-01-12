@@ -5,8 +5,11 @@ var broken := false
 
 @export var hp : int
 
-var item_spawn_range_x
-var item_spawn_range_y
+var item_spawn_range_x : float
+var item_spawn_range_y : float
+
+@export var item_push_radius_x : Vector2 = Vector2(-250, 250)
+@export var item_push_radius_y : Vector2 = Vector2(-500, 0)
 
 var drop_handler
 
@@ -34,6 +37,7 @@ func _on_health_component_death():
 		$Audio.play()
 		
 		drop_handler.set_ranges(item_spawn_range_x, item_spawn_range_y)
+		drop_handler.set_radius(item_push_radius_x, item_push_radius_y)
 		
 		drop_handler.drop_items()
 		

@@ -38,10 +38,9 @@ shape = SubResource("RectangleShape2D_ty2hb")
 bus = &"SFX"
 
 [node name="DropHandler" parent="." instance=ExtResource("3_1yenc")]
-drops = {
+loot_table = {
 ExtResource("4_ovrvf"): 100
 }
-min_drop_count = 2
-max_drop_count = 4
+drop_count = Vector2i(2, 4)
 
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]

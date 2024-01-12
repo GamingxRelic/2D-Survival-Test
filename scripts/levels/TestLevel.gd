@@ -11,6 +11,8 @@ func _ready() -> void:
 	GameManager.entities = $Entities
 	GameManager.resource_nodes = $Entities/ResourceNodes
 	GameManager.item_entities = $Entities/ItemEntities
+	GameManager.damaged_tiles_data = $Entities/DamagedTilesData
+	GameManager.sounds = $Entities/Sounds
 	GameManager.spawn_resources.emit()
 	$Player.global_position = GameManager.world_spawn
 	zoom = cam.zoom.x

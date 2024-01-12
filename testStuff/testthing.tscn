@@ -1,0 +1,469 @@
+[gd_scene load_steps=34 format=3 uid="uid://bs8u1ohrq4cem"]
+
+[ext_resource type="Texture2D" uid="uid://cdonkn38lt0qq" path="res://testStuff/Idle-export.png" id="1_88i73"]
+[ext_resource type="Texture2D" uid="uid://duy5ji8oghbwy" path="res://testStuff/Run-export.png" id="2_xn8y6"]
+[ext_resource type="Script" path="res://testStuff/Lieeeeene2D.gd" id="3_nqvhn"]
+[ext_resource type="Texture2D" uid="uid://83rmwead3u" path="res://assets/sprites/items/tools/test_pickaxe.png" id="4_4x6bm"]
+[ext_resource type="Shader" path="res://testStuff/testestset.gdshader" id="5_y2kuc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_syef1"]
+atlas = ExtResource("1_88i73")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dm082"]
+atlas = ExtResource("1_88i73")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8jy2"]
+atlas = ExtResource("1_88i73")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_007kc"]
+atlas = ExtResource("1_88i73")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mv5ro"]
+atlas = ExtResource("1_88i73")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0geh2"]
+atlas = ExtResource("1_88i73")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4hk8"]
+atlas = ExtResource("1_88i73")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5on7n"]
+atlas = ExtResource("1_88i73")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scd30"]
+atlas = ExtResource("1_88i73")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8v6f"]
+atlas = ExtResource("1_88i73")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4y4m"]
+atlas = ExtResource("1_88i73")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkua1"]
+atlas = ExtResource("1_88i73")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvirm"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pllx0"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lluv3"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkg4s"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1k0y"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5281"]
+atlas = ExtResource("2_xn8y6")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i3qd8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_syef1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dm082")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8jy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_007kc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mv5ro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0geh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4hk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5on7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scd30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8v6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4y4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkua1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvirm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pllx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lluv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkg4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j1k0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5281")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_6olkd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("testthing/pick/TestPickaxe:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(14, -23)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("testthing/pick/TestPickaxe:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.61938]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("testthing/pick/Line2D:points")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("testthing/pick/swingparticles:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-5, -10)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("testthing/pick/swingparticles:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.665541]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("testthing/pick/swingparticles:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("testthing/pick/swingparticles:lifetime")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("testthing/pick/crash:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("testthing/pick/swingparticles:self_modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hfpnx"]
+resource_name = "swing"
+length = 0.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("testthing/pick/TestPickaxe:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.45, 0.55, 0.65),
+"transitions": PackedFloat32Array(2, 2, 2, 2, 2, 2, 0.535887, 0.535887, 0.535887, 0.535887),
+"update": 0,
+"values": [Vector2(-5, -5), Vector2(-2, -7), Vector2(2, -7), Vector2(5, -5), Vector2(7, -2), Vector2(7, -2), Vector2(5, -5), Vector2(2, -7), Vector2(-2, -7), Vector2(-5, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("testthing/pick/TestPickaxe:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.65),
+"transitions": PackedFloat32Array(2, 2, 2, 0.535887),
+"update": 0,
+"values": [-1.61938, 0.544724, 0.544724, -1.61938]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("testthing/pick/Line2D:points")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [PackedVector2Array(-5, -10), PackedVector2Array(1, -11, -7, -9), PackedVector2Array(7, -9, 0, -11, -8, -9), PackedVector2Array(10, -4, 6, -9, 2, -12, -3, -13), PackedVector2Array(11, 1, 9, -6, 5, -11), PackedVector2Array(11, 1, 9, -6), PackedVector2Array(11, -2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("testthing/pick/swingparticles:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, -10), Vector2(-1, -12), Vector2(5, -11), Vector2(10, -6), Vector2(11, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("testthing/pick/swingparticles:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.665541, -0.523931, -0.00414944, 0.698815, 1.54029]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("testthing/pick/swingparticles:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("testthing/pick/swingparticles:lifetime")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.63728, 0.63728),
+"update": 0,
+"values": [0.1, 1.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("testthing/pick/crash:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("testthing/pick/swingparticles:self_modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(2, 2.63902),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vrd8e"]
+_data = {
+"RESET": SubResource("Animation_6olkd"),
+"swing": SubResource("Animation_hfpnx")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v142h"]
+shader = ExtResource("5_y2kuc")
+shader_parameter/pixel_size = 1.0
+
+[sub_resource type="Curve" id="Curve_f0r2r"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_2xd8b"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.406593), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_bb3ka"]
+offsets = PackedFloat32Array(0, 0.234483, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.0117647)
+
+[sub_resource type="Curve" id="Curve_8onlt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.739884, 0.285714), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_dyp41"]
+offsets = PackedFloat32Array(0, 0.565517, 0.744828, 1)
+colors = PackedColorArray(0.780392, 0.772549, 0, 1, 0.889819, 0.674263, 0.215237, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="testthing" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(51, -21)
+sprite_frames = SubResource("SpriteFrames_i3qd8")
+frame_progress = 0.673978
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_vrd8e")
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(10, 10)
+
+[node name="pick" type="Node2D" parent="."]
+script = ExtResource("3_nqvhn")
+
+[node name="TestPickaxe" type="Sprite2D" parent="pick"]
+position = Vector2(14, -23)
+rotation = -1.61938
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("4_4x6bm")
+
+[node name="Line2D" type="Line2D" parent="pick"]
+visible = false
+material = SubResource("ShaderMaterial_v142h")
+width = 4.0
+width_curve = SubResource("Curve_f0r2r")
+default_color = Color(1, 1, 1, 0.788235)
+joint_mode = 2
+antialiased = true
+
+[node name="swingparticles" type="CPUParticles2D" parent="pick"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(-5, -10)
+rotation = -0.665541
+amount = 48
+lifetime = 0.2
+speed_scale = 8.0
+direction = Vector2(-1, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+orbit_velocity_min = 0.1
+orbit_velocity_max = 0.1
+scale_amount_min = 0.5
+scale_amount_max = 2.5
+scale_amount_curve = SubResource("Curve_2xd8b")
+color_ramp = SubResource("Gradient_bb3ka")
+
+[node name="crash" type="CPUParticles2D" parent="pick"]
+position = Vector2(11, 1)
+emitting = false
+amount = 32
+lifetime = 0.25
+one_shot = true
+speed_scale = 1.5
+explosiveness = 1.0
+direction = Vector2(1, -1)
+spread = 180.0
+initial_velocity_min = 80.0
+initial_velocity_max = 120.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_8onlt")
+color_ramp = SubResource("Gradient_dyp41")

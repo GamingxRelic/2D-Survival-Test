@@ -44,17 +44,17 @@ const sc_y_push_amount := 8.0
 # Inventory
 @onready var inv := $InventoryUI
 
+# Weapon Cooldown Timer
+@onready var weapon_cooldown = $Timers/WeaponCooldown
+
 # Mouse hit collider
 #@onready var mouse_col = $Area2Ds/DamageBox/Mouse_Collision
 
 func _ready() -> void:
 	InventoryManager.open_player_inventory.connect(_on_open_player_inventory)
 
-func _process(_delta):
-	if is_on_floor():
-		if Input.is_action_just_pressed("down"):
-			global_position.y += 1
-			
+func _process(_delta): # This is only used for inputs
+	
 	if Input.is_action_just_pressed("jump"):
 		jump_was_pressed = true
 		remember_jump_time()
@@ -75,9 +75,11 @@ func _process(_delta):
 	# Other
 	
 	#if Input.is_action_just_pressed("left_click"):
-	if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui:
+	if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui and weapon_cooldown.is_stopped():
 		
 		UIManager.use_current_hotbar_item.emit()
+		if UIManager.get_current_hotbar_item() != null:
+			weapon_cooldown.start(UIManager.get_current_hotbar_item().cooldown)
 		
 		# Make this a use_item function
 		#if global_position.distance_to(get_global_mouse_position()) <= data.reach:
@@ -87,14 +89,16 @@ func _process(_delta):
 			#await get_tree().create_timer(0.1).timeout
 			#mouse_col.set_deferred("disabled", true)
 	
-	if Input.is_action_pressed("right_click") and !UIManager.mouse_over_ui:
+	if Input.is_action_just_pressed("right_click") and !UIManager.mouse_over_ui:
 		# Do something with right click. 
 		if global_position.distance_to(get_global_mouse_position()) <= data.reach:
-			GameManager.place_block(get_global_mouse_position(), TileList.tile["STONE"])
+			GameManager.place_tile(get_global_mouse_position(), TileList.tile["STONE"])
 			
 		
-	if Input.is_action_pressed("ui_text_submit"):
-		GameManager.spawn_resources.emit()
+	if Input.is_action_just_pressed("ui_text_submit"):
+		#GameManager.spawn_resources.emit()
+		var test_pickaxe = load("res://resources/item/tool/test_pickaxe.tres").duplicate()
+		InventoryManager.player_inventory.add_item(test_pickaxe)
 	
 	if Input.is_action_just_pressed("grenade"):
 		var grenade = preload("res://scenes/misc/grenade.tscn").instantiate()
@@ -116,6 +120,7 @@ func _physics_process(delta) -> void:
 	#print(Engine.get_frames_per_second())
 	
 	GameManager.player_pos = global_position
+	GameManager.mouse_pos = get_global_mouse_position()
 
 	# Handle Jump
 	handle_jump(delta)
@@ -129,8 +134,9 @@ func _physics_process(delta) -> void:
 	# Corner Correction
 	corner_correction()
 	
-	#input()
-	# Change all inputs to be in the _input(event) function
+	# For one way platforms
+	if is_on_floor() and Input.is_action_just_pressed("down"):
+			global_position.y += 1
 	
 	move_and_slide()
 	
@@ -196,10 +202,10 @@ func remember_jump_time() -> void:
 
 func stair_check():
 	if velocity.x != 0:
-		if velocity.x < 0 and velocity.y == 0 and sc_raycasts[0].get_collider() != null and sc_raycasts[1].get_collider() == null:
+		if velocity.x < 0 and velocity.y == 0 and sc_raycasts[0].get_collider() != null and sc_raycasts[1].get_collider() == null and sc_raycasts[2].get_collider() == null and sc_raycasts[3].get_collider() == null and sc_raycasts[8].get_collider() == null:
 			position.x -= sc_x_push_amount
 			position.y -= sc_y_push_amount
-		if velocity.x > 0 and velocity.y == 0 and sc_raycasts[2].get_collider() != null and sc_raycasts[3].get_collider() == null:
+		if velocity.x > 0 and velocity.y == 0 and sc_raycasts[4].get_collider() != null and sc_raycasts[5].get_collider() == null and sc_raycasts[6].get_collider() == null and sc_raycasts[7].get_collider() == null and sc_raycasts[8].get_collider() == null:
 			position.x += sc_x_push_amount
 			position.y -= sc_y_push_amount
 

@@ -44,7 +44,7 @@ func spawn_circles(points):
 			spawn_node2d(point)
 			#GameManager.break_block(to_global(point))
 		else:
-			GameManager.break_block(to_global(point))
+			GameManager.break_tile(to_global(point))
 
 # For visualizing circle 
 func spawn_node2d(offset : Vector2):

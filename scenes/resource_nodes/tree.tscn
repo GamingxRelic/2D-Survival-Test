@@ -15,6 +15,8 @@ collision_mask = 7
 script = ExtResource("1_ysicl")
 item_id = "wood"
 hp = 5
+item_push_radius_x = Vector2(-200, 200)
+item_push_radius_y = Vector2(-300, 0)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 7
@@ -50,11 +52,10 @@ grow_horizontal = 2
 color = Color(0.157648, 0.372185, 0.185691, 1)
 
 [node name="DropHandler" parent="." instance=ExtResource("3_87a1j")]
-drops = {
+loot_table = {
 ExtResource("4_tewlq"): 100,
 ExtResource("5_t683m"): 10
 }
-min_drop_count = 3
-max_drop_count = 5
+drop_count = Vector2i(3, 5)
 
 [connection signal="death" from="HealthComponent" to="." method="_on_health_component_death"]

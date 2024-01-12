@@ -15,6 +15,10 @@ script = ExtResource("1_v46q4")
 
 [node name="ItemEntities" type="Node2D" parent="Entities"]
 
+[node name="DamagedTilesData" type="Node" parent="Entities"]
+
+[node name="Sounds" type="Node2D" parent="Entities"]
+
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="WorldTile" parent="Ground" instance=ExtResource("2_nggfl")]
