@@ -13,6 +13,7 @@ class_name PlayerData
 
 @export var reach : float = 128.0
 @export var attack_damage := 1.0
+var weapon_cooldown : float
 
 @export var inventory : InventoryBase
 @export var hotbar : Array[Item]

@@ -48,11 +48,15 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Description" type="Label" parent="VBoxContainer/DescriptionContainer"]
+[node name="Description" type="RichTextLabel" parent="VBoxContainer/DescriptionContainer"]
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
 size_flags_vertical = 0
+theme = ExtResource("1_in2eb")
+bbcode_enabled = true
 text = "Chicken Nuggets"
+fit_content = true
+scroll_active = false
 
 [node name="TitleRarityContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2

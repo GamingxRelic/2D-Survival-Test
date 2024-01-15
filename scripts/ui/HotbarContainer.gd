@@ -17,7 +17,8 @@ var selected_slot : int = 0:
 func _ready():
 	UIManager.update_hotbar.connect(_update_hotbar)
 	UIManager.update_hotbar_slot.connect(_update_hotbar_slot)
-	UIManager.use_current_hotbar_item.connect(use_selected_item)
+	UIManager.use_primary_current_hotbar_item.connect(_on_selected_item_primary_action)
+	UIManager.use_secondary_current_hotbar_item.connect(_on_selected_item_secondary_action)
 	
 	#await UIManager.hotbar_items != null
 	create_hotbar()
@@ -54,9 +55,14 @@ func _input(event):
 		if Input.is_action_pressed("hotbar_9"):
 			selected_slot = 8
 
-func use_selected_item():
+func  _on_selected_item_primary_action():
 	if slots[selected_slot].res != null:
-		slots[selected_slot].res.use()
+		slots[selected_slot].res.primary_action()
+		_update_hotbar_slot(selected_slot)
+		
+func _on_selected_item_secondary_action():
+	if slots[selected_slot].res != null:
+		slots[selected_slot].res.secondary_action()
 		_update_hotbar_slot(selected_slot)
 
 func create_hotbar():

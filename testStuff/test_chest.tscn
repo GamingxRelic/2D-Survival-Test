@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://cnw0frco7ombw"]
 
-[ext_resource type="Script" path="res://testStuff/TestChest.gd" id="1_pa4px"]
-[ext_resource type="PackedScene" uid="uid://d23xll87ubhgf" path="res://scenes/ui/inventory/inventory_ui.tscn" id="2_q41il"]
+[ext_resource type="Script" path="res://testStuff/TestChest.gd" id="1_miya8"]
+[ext_resource type="PackedScene" uid="uid://d23xll87ubhgf" path="res://scenes/ui/inventory/inventory_ui.tscn" id="2_kjv6a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lgcw4"]
 size = Vector2(65, 65)
 
 [node name="TestChest" type="StaticBody2D"]
-script = ExtResource("1_pa4px")
+script = ExtResource("1_miya8")
 
 [node name="Sprite2D" type="ColorRect" parent="."]
 anchors_preset = 8
@@ -28,7 +28,7 @@ color = Color(0.184314, 0.12549, 0, 1)
 position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_lgcw4")
 
-[node name="InventoryUI" parent="." instance=ExtResource("2_q41il")]
+[node name="InventoryUI" parent="." instance=ExtResource("2_kjv6a")]
 visible = false
 ui_offset = Vector2(0, 210)
 

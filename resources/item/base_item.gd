@@ -13,7 +13,7 @@ class_name Item
 @export var tag_throwable : bool
 @export var tag_tool : bool
 
-@export_enum("BROKEN", "COMMON", "UNCOMMON", "RARE", "MYTHICAL", "LEGENDARY") var rarity : String = "COMMON"
+@export_enum("BROKEN", "COMMON", "UNCOMMON", "RARE", "MYTHICAL", "LEGENDARY", "DEBUG") var rarity : String = "COMMON"
 @export var texture : Texture
 @export var quantity : int = 1 :
 	set(value):

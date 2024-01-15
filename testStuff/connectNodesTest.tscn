@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqv16slasce5v"]
+
+[ext_resource type="Script" path="res://testStuff/connectNodesTest.gd" id="1_xu036"]
+
+[node name="ConnectNodesTest" type="Node2D"]
+script = ExtResource("1_xu036")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(2, 2)

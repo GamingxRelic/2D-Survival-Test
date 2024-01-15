@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgired774eyfy"]
+
+[ext_resource type="Script" path="res://testStuff/ConnectNodeTest.gd" id="1_qmd43"]
+
+[node name="ConnectNodeTest" type="ColorRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_qmd43")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

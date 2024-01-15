@@ -5,18 +5,19 @@
 
 [resource]
 script = ExtResource("1_nn5vi")
-mining_level = 1
-mining_speed = 1.0
+mining_level = 3
+mining_speed = 5.0
+cooldown = 0.25
 name = "Test Pickaxe"
 id = "pickaxe"
-description = "A pickaxe used in testing"
+description = "A pickaxe used in  [color=#fff666]~testing~[/color]"
 tag_material = false
 tag_equipable = false
 tag_consumable = false
 tag_placeable = false
 tag_throwable = false
 tag_tool = true
-rarity = "COMMON"
+rarity = "DEBUG"
 texture = ExtResource("2_redgf")
 quantity = 1
 max_quantity = 1

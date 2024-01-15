@@ -1,8 +1,8 @@
 extends RigidBody2D
 
-@export var radius : float
-@export var fuse_time : float
-@export var damage : int
+@export var radius : float = 1.0
+@export var fuse_time : float = 0.05
+@export var damage : float = 1.0
 
 func _ready():
 	$Timer.wait_time = fuse_time

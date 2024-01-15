@@ -77,9 +77,10 @@ func _process(_delta): # This is only used for inputs
 	#if Input.is_action_just_pressed("left_click"):
 	if Input.is_action_pressed("left_click") and !UIManager.mouse_over_ui and weapon_cooldown.is_stopped():
 		
-		UIManager.use_current_hotbar_item.emit()
+		UIManager.use_primary_current_hotbar_item.emit()
 		if UIManager.get_current_hotbar_item() != null:
-			weapon_cooldown.start(UIManager.get_current_hotbar_item().cooldown)
+			weapon_cooldown.wait_time = GameManager.player_data.weapon_cooldown
+			weapon_cooldown.start()
 		
 		# Make this a use_item function
 		#if global_position.distance_to(get_global_mouse_position()) <= data.reach:
@@ -92,7 +93,7 @@ func _process(_delta): # This is only used for inputs
 	if Input.is_action_just_pressed("right_click") and !UIManager.mouse_over_ui:
 		# Do something with right click. 
 		if global_position.distance_to(get_global_mouse_position()) <= data.reach:
-			GameManager.place_tile(get_global_mouse_position(), TileList.tile["STONE"])
+			GameManager.place_tile.emit(get_global_mouse_position(), TileList.tile["STONE_" + str(randi_range(1,3))])
 			
 		
 	if Input.is_action_just_pressed("ui_text_submit"):

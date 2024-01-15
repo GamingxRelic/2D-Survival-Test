@@ -9,6 +9,7 @@ var item_spawn_range : Vector2
 var x_radius : Vector2 # Min x, max x
 var y_radius : Vector2 # Min y, max y
 
+
 func set_ranges(x, y):
 	item_spawn_range = Vector2(x,y)
 	

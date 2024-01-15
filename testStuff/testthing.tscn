@@ -402,7 +402,6 @@ colors = PackedColorArray(0.780392, 0.772549, 0, 1, 0.889819, 0.674263, 0.215237
 [node name="testthing" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(51, -21)
 sprite_frames = SubResource("SpriteFrames_i3qd8")
 frame_progress = 0.673978
 
@@ -425,7 +424,6 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("4_4x6bm")
 
 [node name="Line2D" type="Line2D" parent="pick"]
-visible = false
 material = SubResource("ShaderMaterial_v142h")
 width = 4.0
 width_curve = SubResource("Curve_f0r2r")

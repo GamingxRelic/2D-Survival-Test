@@ -5,7 +5,7 @@ var offset : Vector2 = Vector2(18,0)
 
 @onready var title_label : Label = $VBoxContainer/TitleContainer/Title
 @onready var rarity_label : Label = $VBoxContainer/RarityContainer/Rarity
-@onready var desc_label : Label = $VBoxContainer/DescriptionContainer/Description
+@onready var desc_label : RichTextLabel = $VBoxContainer/DescriptionContainer/Description
 
 func _ready():
 	offset.y = (size.y/2 - 8) * -1

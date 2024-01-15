@@ -1,7 +1,7 @@
 class_name DamagedTileData
 extends Node
 
-var pos : Vector2i
+@export var pos : Vector2i
 var damage_sound : String
 var break_sound : String
 var max_health : float :

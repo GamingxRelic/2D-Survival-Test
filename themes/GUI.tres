@@ -37,7 +37,6 @@ draw_center = false
 [resource]
 ItemSlotPanel/base_type = &"Panel"
 ItemSlotPanel/styles/panel = SubResource("StyleBoxTexture_aip2a")
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/colors/font_shadow_color = Color(0.313726, 0.313726, 0.313726, 1)
 Label/constants/line_spacing = 4
 Label/constants/outline_size = 0
@@ -47,4 +46,8 @@ Label/constants/shadow_outline_size = 0
 Label/fonts/font = ExtResource("2_rlbvq")
 Panel/styles/panel = SubResource("StyleBoxTexture_l1err")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_af61g")
+RichTextLabel/colors/font_shadow_color = Color(0.313726, 0.313726, 0.313726, 1)
+RichTextLabel/constants/shadow_offset_x = 1
+RichTextLabel/constants/shadow_offset_y = 1
+RichTextLabel/constants/shadow_outline_size = 0
 ScrollContainer/styles/panel = SubResource("StyleBoxTexture_731vq")

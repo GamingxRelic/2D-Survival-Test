@@ -9,4 +9,3 @@ point_count = 2
 [node name="Trail" type="Line2D"]
 width_curve = SubResource("Curve_5nive")
 script = ExtResource("1_r6w11")
-max_length = 20

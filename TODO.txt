@@ -30,6 +30,10 @@ TODO:
 		b. Axe is for trees
 		c. Add hardness to all blocks and resource nodes and a mining speed and level to tools. 
 		
+	3. If you have a tool or placeable item selected in your hotbar, a small 
+		ghost version of it should appear near the bottom right corner of your cursor.
+		a. Look at Terraria for reference. 
+		
 	3. Add storage / chests / stored inventories
 		a. Inventories should be saved when you open and close the chest.
 		b. You shouldn't be able to break the chest if there are items in it.
